@@ -1,0 +1,98 @@
+﻿@model IEnumerable<DATAMODEL.ROUTE_ENTREES>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-6"><h2>Route Entries</h2></div>
+    <div class="col-md-6 "><a href="@Url.Action("IndexOfOKEntries")" class="btn-sm btn-success pull-right"> Verified Entries </a></div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12 table-responsive">
+
+        <table id="dataTables-1" class="table table-bordered table-hover table-striped">
+            @{int rowNo = 0;}
+            <thead>
+                <tr>
+                    <th>
+                        Sr No.
+                    </th>
+                    <th>Route Name</th>
+                    <th>Total Weight</th>
+                    <th>Machine Weight </th>
+                    <th>Diffrence </th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@{rowNo++;}@rowNo</td>
+                        <td>@item.ROUTE.NAME </td>
+                        <td>@item.TOTAL_W</td>
+                        <td>@item.Machine_W</td>
+                        <td>@{var wt = item.Machine_W - @item.TOTAL_W;}@wt</td>
+                        <td>@item.ENTRY_DATE</td>
+                        <td>
+                            @if((bool)AsiaIndustries.SessionManagement.SessionHelper.UserSession.EDIT_OPTION) { 
+                            <a href="javascript:;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#EditDiv-@item.ID" onclick="loadXMLDoc(@item.ROUTE_ID)"> Edit</a>
+                             }
+                             @*@Html.ActionLink("Delete", "Delete", new { pID = item.ID }, new { @class = "btn btn-danger btn-sm" })*@
+                            @Html.ActionLink("Route Entries", "DetailRouteEntry", new { RouteEntryID = item.ID }, new { @class = "btn btn-danger btn-sm" })
+                        </td>
+                    </tr>
+
+                    if ((bool)AsiaIndustries.SessionManagement.SessionHelper.UserSession.EDIT_OPTION)
+                    {
+                    <div class="modal fade " id="EditDiv-@item.ID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content" style="padding:45px">
+                                @using (Html.BeginForm("EditRouteEntry", "EditList", FormMethod.Post))
+                                {
+                                    <fieldset>
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">@item.ROUTE.NAME</h4>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <div class="row">
+                                                <div class="col-lg-4"><label> Machine Weight</label></div>
+                                                <div class="col-lg-5">
+                                                   <input name="Machine_w" value="@item.Machine_W" />
+                                                </div>
+                                            </div>
+                                            @*<br />
+                                            <div class="row">
+                                                <div class="col-lg-4"><label> </label></div>
+                                                <div class="col-lg-5">
+                                                    @Html.DropDownList("Vehicle_ID", vehicles.Select(m => new SelectListItem { Text = m.VEHICLE_NO.ToString(), Value = m.VEHICLE_ID.ToString() }), "--Select Vehicle--"
+                                                                        , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Menu_DropDown" })
+                                                </div>
+                                            </div>*@
+                                            <input type="hidden" name="RouteEntryID" value="@item.ID" />
+                                        </div>
+                                        <div class="modal-footer" style="background:none;">
+                                            <button type="submit" class="btn ownbtn">Save</button>
+                                        </div>
+                                    </fieldset>
+                                }
+
+                            </div>
+                            <!--Model content-->
+                        </div>
+                    </div>
+                    }
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+</div>

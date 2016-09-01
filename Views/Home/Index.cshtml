@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@{
+    var totalRoute = BusinessEntities.EntityBO.RouteBO.GetRoutes();
+    var totalVendors = BusinessEntities.EntityBO.VendorBO.GetVendors();
+    var totalPastDateCheques = BusinessEntities.EntityBO.BankBO.GetPostDatedCheques(); 
+ }
+
+
+<h2>Dashboard</h2>
+
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-truck fa-5x "></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@totalRoute</div>
+                        <div>Total Routes</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("index","Routes",null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">See All Routes</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-users fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@totalVendors</div>
+                        <div>Total Vendors</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("index","Vendors",null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">See All Vendors</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+ 
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-copy fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@totalPastDateCheques</div>
+                        <div>Total Post Date Cheques</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("index", "Bank", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">See All Cheques</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

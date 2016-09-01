@@ -1,0 +1,90 @@
+﻿@model IEnumerable<DATAMODEL.BANKS_NAME>
+@{
+    ViewBag.Title = "BanksSetting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Banks Setting</h2>
+<div class="row ">
+    <div class="well well-sm col-lg-10 col-md-offset-1">
+        <br />
+        @using (Html.BeginForm("AddNewBank", "setting"))
+        {
+            <div class="row">
+                <div class="col-lg-2">
+                    @Html.TextBox("BankName", null, new { required = "required", @class = "form-control", @placeholder = "Bank Name" })
+                </div>
+                <div class="col-lg-3">
+                    @Html.TextBox("FullBankName", null, new { required = "required", @class = "form-control", @placeholder = "Full Bank Name" })
+                </div>
+                <div class="col-lg-2">
+                    @Html.TextBox("Amount", null, new { required = "required", @class = "form-control", @placeholder = "Opening Balance" })
+                </div>
+                <div class="col-lg-3">
+                    <input type="date" required="required" name="Trans_Date" class="form-control" placeholder="Date" />
+                </div>
+                <div class="col-lg-2">
+                    <input type="submit" class="btn-success btn-sm" value="Add New">
+                </div>
+            </div>
+
+
+        }
+
+    </div>
+</div>
+
+
+<div class="row ">
+    <div class="well well-sm col-lg-10 col-md-offset-1">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                @{int rowNo = 0;}
+                <thead>
+                    <tr>
+                        <th>Sr-No</th>
+                        <th>Bank Name</th>
+                        <th>Full Bank Name</th>
+                        <th>Opening Balance</th>
+                        <th>Current Balance</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @{rowNo++;}@rowNo
+                            </td>
+                            <td>
+                                @item.BANK_NAME
+                            </td>
+                            <td>
+                                @item.BANK_FULL_NAME
+                            </td>
+                            <td>
+                                @{ Decimal Op_blnc = (decimal)item.BANK_TO_BANK_TRANSCT.Where(btb => btb.TRANSCT_TYPE == "OB" && btb.BANKID_TO == item.BANKNAME_ID).Sum(b => b.AMOUNT);
+
+                                 string bl = Op_blnc.ToString("N", System.Globalization.CultureInfo.InvariantCulture);}  @bl
+
+                            </td>
+                            <td>
+                                @{ Decimal amt = (decimal)item.BANK_TO_BANK_TRANSCT.Where(btb => btb.TRANSCT_TYPE != "OB" && btb.BANKID_TO == item.BANKNAME_ID).Sum(b => b.AMOUNT);
+                                 amt = Op_blnc + amt;
+                                 Decimal cr_amt = (decimal)item.BANK_TO_BANK_TRANSCT.Where(btb => btb.TRANSCT_TYPE != "OB" && btb.TRANSCT_TYPE != "NB" && btb.BANKID_FROM == item.BANKNAME_ID).Sum(b => b.AMOUNT);
+                                 amt = amt - cr_amt;
+                                 string Current_amt = amt.ToString("N", System.Globalization.CultureInfo.InvariantCulture);}  @Current_amt
+
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

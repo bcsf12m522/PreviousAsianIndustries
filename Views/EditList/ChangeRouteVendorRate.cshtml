@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "VendorLedger";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var V_Branches = BusinessEntities.DropDownBO.DropDownBO.AllVendor_Branches().OrderBy(vndr => vndr.VBNAME);
+    var All_Routes = BusinessEntities.DropDownBO.DropDownBO.AllRoutes();
+
+}
+
+<h2>Change Route Rate</h2>
+@using (Ajax.BeginForm("ChangeRouteVendorRate", "EditList", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "Updatediv",
+    InsertionMode = InsertionMode.Replace
+}, new { @class = "form123" }))
+{<div class="row">
+        <div class="col-md-10 col-md-offset-1 well well-sm">
+            <div class="row">
+                <div class=" col-lg-2">Start Date</div>
+                <div class="col-lg-3 "><input class="form-control" type="date" name="start_date" required="required" /></div>
+                <div class="col-lg-2">End Date</div>
+                <div class="col-lg-3"><input type="date" class="form-control" name="End_date" required="required" /></div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-2">
+                    Select Route
+                </div>
+                <div class=" col-lg-3 ">
+                    @Html.DropDownList("Route_ID", All_Routes.Select(m => new SelectListItem { Text = m.NAME, Value = m.ROUTE_ID.ToString() }), "--Select Route--"
+                     , new {  @class = "form-control", @required = true, @dir = "rtl", id = "Route_DropDown" })
+                </div>
+                <div class="col-md-2">Enter Rate</div>
+                <div class="col-md-3"><input type="number" step="0.01" required="required" placeholder="Rate Per KG" name="new_Rate" class="form-control"> </div>
+            </div>
+            <br />
+            <div class="row">
+                
+                <div class="col-md-3 col-md-push-7">
+                    <input type="submit" value="Change Vendor Rate" class="form-control btn btn-success" name="V_Name" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="clearfix"></div>
+<div class="row" id="PrintableDiv">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div id="Updatediv"></div>
+    </div>
+</div>
+
+
+
+

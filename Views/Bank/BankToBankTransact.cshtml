@@ -1,0 +1,127 @@
+﻿@{
+    ViewBag.Title = "BankToBankTransact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Banks = BusinessEntities.DropDownBO.DropDownBO.AllBanks();
+        
+}
+
+<h2> Bank Transaction</h2>
+<hr />
+<div class="row" >
+    <div class="col-lg-10 col-lg-offset-1 well well-lg">
+        <p><b>Add New Balance</b></p><br />
+@using (Html.BeginForm("AddBalanceToBank", "Bank", FormMethod.Post))
+                {
+    <div class="row">
+        <div class="col-md-2">
+            <label>To Bank</label>
+        </div>
+        <div class="col-md-4">
+            @Html.DropDownList("BANKID_TO", Banks.Select(m => new SelectListItem { Text = m.BANK_NAME, Value = m.BANKNAME_ID.ToString() }), "--Select Bank--"
+                                              , new { @class = "span2  form-control", @required = true, id = "Bank_ID_To" })
+        </div>
+        <div class="col-md-2"><label>Amount </label></div>
+        <div class="col-md-4">
+            <input type="number" name="Amount" required="required" class="form-control" placeholder="Amount">
+        </div>
+
+    </div><br />
+    <div class="row">
+        
+        <div class="col-md-2"> <label>Date</label></div>
+        <div class="col-md-4">
+            <input type="date" class="form-control" required="required" name="Trans_Date" />
+                </div>
+        <div class="col-md-2"> <label>Particuler</label></div>
+        <div class="col-md-4">
+            <textarea name="TRANSACT_TEXT" class="form-control"></textarea>
+        </div>
+    </div><br />
+    <div class="row">
+        
+        
+        <div class="col-md-4 pull-right">
+           <input type="submit" class="btn-success  btn" value="Confirm"/>
+        </div>
+
+    </div>
+
+
+    <br />
+    <hr />
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <p><b>Bank To Bank Transaction</b></p><br />
+        </div>
+     
+    </div>         
+}
+
+        @using (Html.BeginForm("BankToBankTransact", "Bank", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-2">
+                    <label>From Bank</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownList("BANKID_FROM", Banks.Select(m => new SelectListItem { Text = m.BANK_NAME, Value = m.BANKNAME_ID.ToString() }), "--Select Bank--"
+                                              , new { @class = "span2  form-control ", @required = true, id = "Bank_ID_From" })
+
+                </div>
+                <div class="col-md-2">
+                    <label>To Bank</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownList("BANKID_TO", Banks.Select(m => new SelectListItem { Text = m.BANK_NAME, Value = m.BANKNAME_ID.ToString() }), "--Select Bank--"
+                                              , new { @class = "span2  form-control", @required = true, id = "Bank_ID_To" })
+                </div>
+
+            </div><br />
+            <div class="row">
+                <div class="col-md-2"><label>Amount </label></div>
+                <div class="col-md-4">
+                    <input type="number" name="Amount" required="required" class="form-control" placeholder="Amount">
+                </div>
+                <div class="col-md-2"> <label>Date</label></div>
+                <div class="col-md-4">
+                    <input type="date" class="form-control" required="required" name="TRANSACT_DATE" />
+                </div>
+
+            </div><br />
+            <div class="row">
+
+                <div class="col-md-2"> <label>Particuler</label></div>
+                <div class="col-md-4">
+                    <textarea name="TRANSACT_TEXT" class="form-control"></textarea>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <input type="submit" class="btn-success  btn" value="Confirm" />
+                </div>
+
+            </div>
+
+
+            <br />
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <p>Status: @ViewBag.Response</p>
+                </div>
+
+                <div class="col-lg-4 col-md-6 pull-right">
+                    <div class="panel panel-green">
+                        <a href="@Url.Action("BankToBankTransactReport", "Reports")" target="_blank">
+                            <div class="panel-heading">
+                                <span class="pull-left"> Go To Bank Transactions</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+     </div>
+</div>
+
+

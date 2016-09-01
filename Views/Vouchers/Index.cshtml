@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Vouchers</h2>
+
+@if ((bool)AsiaIndustries.SessionManagement.SessionHelper.UserSession.ADD_VOUCHER)
+{ 
+<div class="row">
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <a href="@Url.Action("CashPymentVoucher", "Vouchers")" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Cash Vouchers</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-green">
+            <a href="@Url.Action("ChequePymentVoucher", "Vouchers")" target="_blank">
+                <div class="panel-heading">
+                    <span class="pull-left">Cheque Voucher</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <a href="@Url.Action("PymentRecoveryVoucher", "Vouchers")" target="_blank">
+                <div class="panel-heading">
+                    <span class="pull-left">Payment Recovery Vouchers</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <a href="@Url.Action("AllcashVoucher", "Vouchers")" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">All cash Voucher</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>    
+}

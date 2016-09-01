@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "RouteWiseLedger";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var V_Branches = BusinessEntities.DropDownBO.DropDownBO.AllRoutes().OrderBy(rt => rt.NAME);
+}
+
+<h2>Route Wise Ledger</h2>
+
+@using (Ajax.BeginForm("RouteWiseFullLedger", new AjaxOptions
+                                                    {
+                                                        HttpMethod = "POST",
+                                                        UpdateTargetId = "Updatediv",
+                                                        OnComplete = "ActiveprintBtn",
+                                                        InsertionMode = InsertionMode.Replace
+                                                    }))
+               {<div class="row">
+                        <div class="col-md-10 col-md-offset-1 well well-sm">
+                            <div class="row">
+                                <div class=" col-lg-2">Start Date</div>
+                                <div class="col-lg-3"><input class="form-control" type="date" name="start_date" required="required" /></div>
+                                <div class="col-lg-2">End Date</div>
+                                <div class="col-lg-3"><input type="date" class="form-control" name="End_date" required="required" /></div>
+                            </div>
+                            <br />
+
+
+
+                            <div class="row">
+                                <div class="col-lg-2">Select Route </div>
+                                <div class="col-lg-3">
+                                    <input type="hidden" name="ISWithWeight" value="@ViewBag.Weight" />
+                                    @Html.DropDownList("Route_ID", V_Branches.Select(m => new SelectListItem { Text = m.NAME.ToString(), Value = m.ROUTE_ID.ToString() }), "--Select Route--"
+                                    , new { @class = "  form-control ", @required = true })
+                                </div>
+                                                                
+                                <div class="col-lg-3 col-lg-offset-2">
+                                    <input type="submit" value="search" class="form-control btn btn-success" name="V_Name" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 }
+
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 ">
+        <input type="button" id="PrintBtn" class="btn-success" style=" display:none" onclick="printDiv('PrintableDiv')" value="print !" />
+        <hr />
+    </div>
+    <br />
+</div>
+
+<div class="row" id="PrintableDiv">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div id="Updatediv"></div>
+    </div>
+</div>
+
+
+<script>
+    function ActiveprintBtn() {
+
+        document.getElementById("PrintBtn").style.display = "inline";
+    }
+
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+</script>
+
+<style>
+    .headinglist {
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+</style>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<DATAMODEL.VEHICLE>
+@{
+    ViewBag.Title = "VehicleSetting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-3"><h2>Vehicle Setting</h2></div>
+    <div class="col-lg-6">
+        <br />
+        <div class="row">
+            @using (Html.BeginForm("AddNewVehicle", "setting"))
+            {     <div class="col-lg-8">
+                @Html.TextBox("Vehicle_no", null, new { @class = "form-control ", @placeholder = " Vehicle Name" })
+            </div>
+                <div class="col-lg-4">
+                    <input type="submit" class="btn-success btn-sm" value="Add New">
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                @{int rowNo = 0;}
+                <thead>
+                    <tr>
+                        <th>Sr-No</th>
+                        <th>Vehicle No</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @{rowNo++;}@rowNo
+                            </td>
+                            <td>
+                               @item.VEHICLE_NO
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="#" class="btn btn-danger btn-sm">Delete</a>
+
+                            </td>
+                        </tr>
+                     }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

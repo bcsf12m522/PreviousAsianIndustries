@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   
+    var All_Banks = BusinessEntities.DropDownBO.DropDownBO.AllBanks();
+
+}
+<h2> Bank to Bank Transactions</h2><hr />
+@using (Ajax.BeginForm("BankTransactReport", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "Updatediv",
+    InsertionMode = InsertionMode.Replace
+}))
+{<div class="row">
+        <div class="col-md-8 col-md-offset-2 well well-sm">
+           
+            <br />
+            <div class="row">
+                <div class="col-lg-2">
+                    Select Route
+                </div>
+                <div class=" col-lg-4">
+                    @Html.DropDownList("Bank_ID", All_Banks.Select(m => new SelectListItem { Text = m.BANK_NAME, Value = m.BANKNAME_ID.ToString() }), "--Select Bank--"
+                     , new { @class = "form-control ", @required = true, @dir = "rtl", id = "Route_DropDown" })
+                </div>
+                <div class="col-lg-3 col-lg-offset-1">
+                    <input type="submit" value="search" class="form-control btn btn-success" name="V_Name" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="clearfix"></div>
+<div class="row" id="PrintableDiv">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div id="Updatediv"></div>
+    </div>
+</div>
+@*<i id="PrintBtn" class="fa fa-print fa-5x" style=" display:none" onclick="printDiv('PrintableDiv')"></i>*@
+<script>
+    //function ActiveprintBtn() {
+
+    //    document.getElementById("PrintBtn").style.display = "inline";
+    //}
+
+    //function printDiv(divName) {
+
+    //    var printContents = document.getElementById(divName).innerHTML;
+    //    var originalContents = document.body.innerHTML;
+    //    document.body.innerHTML = printContents;
+    //    window.print();
+    //    document.body.innerHTML = originalContents;
+    //}
+    //function GetVendors(_routeId) {
+
+    //    var url = "/Vendors/AllVendorsByRouteID/";
+    //    var vendorslist = "#VendorsDD";
+
+    //    $.ajax({
+    //        url: url,
+    //        data: { RouteID: _routeId },
+    //        cache: false,
+    //        type: "POST",
+    //        success: function (data) {
+    //            $("#VendorsDD").html(data);
+    //        },
+    //        error: function (reponse) {
+    //            alert("error : " + reponse);
+    //        }
+    //    });
+    //}
+
+</script>
+
+
+

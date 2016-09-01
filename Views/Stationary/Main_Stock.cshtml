@@ -1,0 +1,107 @@
+﻿@model IEnumerable<DATAMODEL.CUSTOM_MODEL.StationaryCM>
+@{
+    ViewBag.Title = "Main_Stock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Routes = BusinessEntities.EntityBO.RouteBO.GetAllRoutesList();
+}
+<div class="row">
+    <div class="col-lg-5">
+        <h2>Stationary Stock</h2>
+    </div>
+    <div class="col-lg-5">
+        @ViewBag.not_issue
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12 table-responsive">
+        <table  class="table table-bordered table-hover table-striped">
+            @{int rowNo = 0;}
+            <thead>
+                <tr>
+                    <th colspan="4">Main Stock</th><th colspan="2">Available Stock</th>
+                </tr>
+                <tr>
+                    <th>Sr No</th>
+                    <th>Name</th>
+                    <th>Total Books</th>
+                    <th>Book Serial</th>
+                    <th>Available Serial</th>
+                    <th>Current Stock</th>
+                    <th>Issue or Add</th>
+                    <th>Last Add Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@{rowNo++;}@rowNo</td>
+                        <td>@item.STATIONARY_NAME </td>
+                        <td>@{var books = (@item.END_M_SERIAL - @item.START_M_SERIAL)/ 100; } @books</td>
+                        <td>@item.START_M_SERIAL -  @item.END_M_SERIAL</td>
+                        <td>@item.CURRENT_START_SR- @item.END_M_SERIAL</td>
+                        <td>@{var current_stock = (@item.END_M_SERIAL - @item.CURRENT_START_SR)+1;  } @current_stock (Books:@{var currentBooks = @current_stock / 100;}@currentBooks)</td>
+                        <td><a href="javascript:;" class=" btn-sm btn-primary" data-toggle="modal" data-target="#myModal1-@item.ST_TYPE_ID" onclick="loadXMLDoc(@item.ST_TYPE_ID)"> Issue</a>
+                        @Html.ActionLink("Add", "AddnewMainStock", new { Main_ST_ID = @item.ST_MAIN_STOCK_ID }, new { @class = "btn-sm btn-primary" })
+                        </td>
+                        <td>@item.DATE</td>
+                    </tr>
+                <div class="modal fade " id="myModal1-@item.ST_TYPE_ID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="padding:45px">
+                            @using (Html.BeginForm("AddIssueStock", "Stationary", FormMethod.Post))
+                            {
+                            <fieldset>
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Issue Serial</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-4"><label>Stock name</label></div>
+                                        <div class="col-lg-4"><label>@item.STATIONARY_NAME</label></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4"><label> Current Serial :</label></div>
+                                        <div class="col-lg-3"><label>@item.CURRENT_START_SR</label></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4"><label> Issue End Serial : </label></div>
+                                        <div class="col-lg-5"><input type="number" name="Issue_End_Serial" min="@item.CURRENT_START_SR" max="@item.END_M_SERIAL" value="@item.CURRENT_START_SR" /></div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-lg-4"><label> Select Route</label></div>
+                                        <div class="col-lg-5">@Html.DropDownList("RouteID", Routes.Select(m => new SelectListItem { Text = m.NAME, Value = m.ROUTE_ID.ToString() }), "--Select Route--"
+                                         , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Menu_DropDown" })
+                                        </div>
+                                    </div>
+                                    <input type="hidden" value="@item.ST_TYPE_ID" name="st_type_ID" />
+                                </div>
+                                <div class="modal-footer" style="background:none;">
+                                    <button type="submit" class="btn ownbtn">Issue Stock</button>
+                                </div>
+                            </fieldset>
+                            }
+
+                        </div>
+                        <!--Model content-->
+                    </div>
+                </div>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        @Html.ActionLink("Add new Stock", "AddnewStock", "Stationary", null, new { @class="btn-sm btn-primary pull-right"})
+    </div>
+</div>
+
+
+
+      

@@ -1,0 +1,65 @@
+﻿@model DATAMODEL.USER
+
+@{
+    ViewBag.Title = "Create User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+<h2>Create User</h2>
+<hr />
+
+<div class="modal-body">
+
+    @using (Html.BeginForm("Create", "User", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-2"> First Name :</div>
+            <div class="col-md-4 "> <input type="text" required="required" name="F_NAME" class="form-control"></div>
+            <div class="col-md-2"> Last Name:</div>
+            <div class="col-md-4"> <input type="text" required="required" name="L_NAME" class="form-control"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">  Email :</div>
+            <div class="col-md-4 "> <input type="email" required="required" name="EMAIL" class="form-control"></div>
+            <div class="col-md-2"> Password:</div>
+            <div class="col-md-4"> <input type="text" required="required" name="PWD" class="form-control"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">  CNIC</div>
+            <div class="col-md-4 "> <input type="text"  name="CNIC" class="form-control"></div>
+            <div class="col-md-2"> Contact No:</div>
+            <div class="col-md-4"> <input type="text"  name="CONTACT_NO" class="form-control"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">User type</div>
+            <div class="col-md-4 ">
+                    <label> <input type="radio" id="" name="TYPE" required="required" value="1"> Admin</label>
+                    <label> <input type="radio" id="" name="TYPE" required="required" value="2"> common user</label>
+            </div>
+            <div class="col-md-2"> Status:</div>
+            <div class="col-md-4">
+                    <label> Active <input type="radio" required="required" name="STATUS" value="true"></label>
+                    <label> Deactive <input type="radio" required="required" name="STATUS" value="false"></label>
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-md-2">Select Rights</div>
+            <div class="col-md-10">
+                    <label> <input type="checkbox" name="Permission"  value="1"> SuperVision</label>
+                    <label> <input type="checkbox" name="Permission"  value="2"> Route Entries</label>
+                    <label> <input type="checkbox" name="Permission"  value="3"> Edit Entries</label>
+                    <label> <input type="checkbox" name="Permission"  value="4"> Delete </label>
+                    <label> <input type="checkbox" name="Permission" value="5"> Add vouchers </label>
+            </div>
+        </div>
+        <br />
+    <div class="col-md-2"> </div>
+    <div class="col-md-4">
+        <input type="submit" class="btn-primary btn-sm" value="Save">
+    </div>
+       
+    }
+    <br />
+</div>

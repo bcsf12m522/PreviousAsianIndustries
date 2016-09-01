@@ -1,0 +1,53 @@
+﻿@model IEnumerable<DATAMODEL.CUSTOM_MODEL.StationaryIssueCM>
+@{
+    ViewBag.Title = "Issue_Stock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Issue Stock</h2>
+
+
+<div class="row">
+    <div class="col-lg-12 table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            @{int rowNo = 0;}
+            <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th>Name</th>
+                    <th>Start Serial</th>
+                    <th>End Serial</th>
+                    <th>Current</th>
+                    <th>Route Name</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Option</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@{rowNo++;}@rowNo</td>
+                        <td>@item.STATIONARY_NAME </td>
+                        <td>@item.START_ISSUE_SERIAL</td>
+                        <td>@item.END_ISSUE_SERIAL</td>
+                        <td>@item.Current_Sr</td>
+                        <td>@item.ROUTE_NAME</td>
+                        <td>
+                        @if (@item.STATUS == 1) {<text> Available</text> }else{<text> Used </text>}</td>
+                        <td>@item.DATE</td>
+                        <td>@Html.ActionLink("Detail", "IssueStationaryDetail", "Stationary", new { Issue_St_id = @item.ST_ISSUE_STOCK_ID }, new { @class = "btn-success btn-sm" })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        @Html.ActionLink("Go to Main Stock", "Main_Stock", "Stationary", null, new { @class = "btn-sm btn-primary pull-right" })
+    </div>
+</div>

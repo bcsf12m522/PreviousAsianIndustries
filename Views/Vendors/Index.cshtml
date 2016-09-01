@@ -1,0 +1,66 @@
+﻿@model IEnumerable<DATAMODEL.CUSTOM_MODEL.VENDORCM>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Routes = BusinessEntities.EntityBO.RouteBO.GetAllRoutesList();
+}
+<div class="row">
+    <div class="col-lg-3">
+      <h2>Vendors </h2>
+    </div>
+    
+    <div class="col-lg-2 col-lg-offset-7">
+        @Html.ActionLink("Add New Vendor", "AddnewVendor", "Vendors", null, new { @class="btn-primary btn-sm btn pull-right"})
+    </div>
+</div>
+
+<br />
+<div class="row">
+
+    <div class="col-lg-12 table-responsive">
+       
+            <table id="dataTables-1" class="table table-bordered table-hover table-striped">
+                @{int rowNo = 0;}
+                <thead>
+                    <tr>
+                        <th>
+                            Sr No.
+                        </th>
+                        <th>Actions</th>
+                        <th>Route Name</th>
+                        <th>Rate</th>
+                        <th>Phone #</th>
+                        <th>Address</th>
+                        <th>Vendor Name</th>
+                        
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@{rowNo++;}@rowNo</td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditVendor", new { id = item.V_BRANCH_ID }, new { @class = "btn btn-primary btn-sm" })
+                                @Html.ActionLink("Renew Contract", "RenewContract", new { id = item.V_BRANCH_ID }, new { @class = "btn btn-primary btn-sm" })
+                               @if (@item.IS_FIRST_BRANCH) { 
+                               @Html.ActionLink("Add Branch", "AddVendorBranch", new { V_id = item.VENDOR_ID }, new { @class = "btn btn-success btn-sm" })
+                               }
+                                 
+                            </td>
+                            <td>@item.ROUTE_NAME </td>
+                            <td>@item.RATE</td>
+                            <td>@item.PHONE_NO</td>
+                            <td>@item.ADDRESS</td>
+                            <td>@item.V_NAME</td>
+                        </tr>
+                    }
+                 </tbody>
+              
+            </table>
+
+        </div>
+  </div>
+

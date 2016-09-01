@@ -1,0 +1,167 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Setting</h2>
+<div class="row">
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-users fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"></div>
+                        <div>Drivers</div>                        
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("DriversSetting", "Setting", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Add new Drivers</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-truck fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"></div>
+                        <div>Vehicles</div>                      
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("VehicleSetting", "Setting", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Add new Vehicles</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-copy fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"></div>
+                        <div>Banks</div>                        
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("BanksSetting", "Setting", null)">
+                <div class="panel-footer">
+                    <span class="pull-left">See All Banks</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-bank fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"></div>
+                        <div>Cash Heads</div>
+
+
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("index","HeadCash", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Add new Heads</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div></div>
+<div class="row">
+ >
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-credit-card fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"></div>
+                        <div> &nbsp;&nbsp;&nbsp;&nbsp;Route wise rate change</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("ChangeRouteVendorRate", "Editlist", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Route Wise Rate change</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-credit-card fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"></div>
+                        <div>Vendor wise Rate change</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("ChangeVendorRate", "EditList", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Change Vendor rate</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-user fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"></div>
+                        <div>Users </div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("index", "User", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Manage Users</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

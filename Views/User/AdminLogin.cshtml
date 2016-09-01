@@ -1,0 +1,46 @@
+﻿@model DATAMODEL.USER
+@{
+    ViewBag.Title = "Admin Login";
+    Layout = "~/Views/Shared/_LoginPage.cshtml";
+}
+       <div class="row">
+         <div class="col-lg-offset-2 col-lg-7 ">
+            <div class="row">
+            <div class="col-lg-offset-2 col-lg-10 font_color">
+                <h4 class="font_color">Please login as Admin  to perform this action...!</h4>
+            </div>
+            </div>
+         </div>
+       </div>
+        <div class="row">
+            <div class="col-lg-offset-2 col-lg-7 ">
+                @using (Html.BeginForm("CheckLogin", "Accounts", FormMethod.Post))
+                {
+                    <div class="row">
+                        <div class="col-lg-offset-2 col-lg-2 font_color">
+                            Email
+                        </div>
+                        <div class="col-lg-6">
+                            @Html.TextBoxFor(model => model.EMAIL, new { @required = "true", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div> &nbsp; </div>
+                    <div class="row">
+                        <div class="col-lg-offset-2 col-lg-2 font_color">
+                            Password
+                        </div>
+                        <div class="col-lg-6">
+                            @Html.PasswordFor(model => model.PWD, new { @required = "true", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div> &nbsp; </div>
+                    <div class="row">
+                        <div class="col-lg-10 ">
+                            <input type="submit" class="btn-primary pull-right" value="Login" />
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+        </div>

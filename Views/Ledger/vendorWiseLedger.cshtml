@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "VendorLedger";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var V_Branches = BusinessEntities.DropDownBO.DropDownBO.AllVendor_Branches().OrderBy(vndr => vndr.VBNAME);
+    var All_Routes = BusinessEntities.DropDownBO.DropDownBO.AllRoutes();
+    
+}
+<h2> Vendor Wise Slips</h2>
+@using (Ajax.BeginForm("VendorLedger", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "Updatediv",
+    OnComplete = "ActiveprintBtn",
+    InsertionMode = InsertionMode.Replace
+}))
+{<div class="row">
+        <div class="col-md-10 col-md-offset-1 well well-sm">
+            <div class="row">
+                <div class=" col-lg-2">Start Date</div>
+                <div class="col-lg-3 "><input class="form-control" type="date" name="start_date" required="required" /></div>
+                <div class="col-lg-2">End Date</div>
+                <div class="col-lg-3"><input type="date" class="form-control" name="End_date" required="required" /></div>
+            </div>
+            <br />
+            <div class="row">
+                <div class=" col-lg-2"> Year</div>
+                <div class="col-lg-3">
+                    <select name="YearName" class="form-control" required="required">
+                        <option value=""> Year</option>
+                        <option value="2015">2015</option>
+                        <option value=" 2016"> 2016</option>
+                        <option value="2017">2017</option>
+                        <option value=" 2018"> 2018</option>
+                        <option value="2019">2019</option>
+                        <option value=" 2020"> 2020</option>
+                        <option value=" 2021"> 2021</option>
+                        <option value=" 2022"> 2022</option>
+
+                    </select>
+                </div>
+                <div class=" col-lg-2"> Month</div>
+                <div class="col-lg-3">
+                    <select name="MonthName" class="form-control" required="required">
+                        <option value=""> Month</option>
+                        <option value="جنوری">جنوری</option>
+                        <option value="فروری">فروری</option>
+                        <option value="مارچ">مارچ</option>
+                        <option value=" اپریل"> اپریل</option>
+                        <option value=" مئ"> مئ</option>
+                        <option value="جون">  جون</option>
+                        <option value="جولائی">جولائی</option>
+                        <option value=" اگست"> اگست</option>
+                        <option value=" ستمبر"> ستمبر</option>
+                        <option value=" اکتوبر"> اکتوبر</option>
+                        <option value="نومبر">  نومبر</option>
+                        <option value="دسمبر"> دسمبر </option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class=" col-lg-3 col-lg-offset-2" >
+                    @Html.DropDownList("Route_ID", All_Routes.Select(m => new SelectListItem { Text = m.NAME, Value = m.ROUTE_ID.ToString() }), "--Select Route--"
+                     , new { @onchange = "javascript:GetVendors(this.value)", @class = "form-control ", @required = true, @dir = "rtl", id = "Route_DropDown" })
+                </div>
+                <div class="col-lg-2">
+                    Select Vendor
+                </div>
+                <div class="col-lg-3">
+                    <input type="hidden" name="ISWithWeight" value="@ViewBag.Weight" />
+                    <select id="VendorsDD" name="V_Branch_ID" class="form-control">
+                        <option value="1">Select Vendor </option>
+                    </select>
+                </div>
+                @*<div class="col-lg-2">
+                    <select id="ContractDD" name="Contractno" class="form-control">
+                        <option value="">Contract No</option>
+                    </select>
+                </div>*@
+                <div class="col-lg-2">
+                    <input type="submit" value="search" class="form-control btn btn-success" name="V_Name" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="clearfix"></div>
+<div class="row" id="PrintableDiv">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div id="Updatediv"></div>
+    </div>
+</div>
+  <input type="button" id="PrintBtn" class="btn-success" style=" display:none" onclick="printDiv('PrintableDiv')" value="print !" />
+<script>
+    function ActiveprintBtn() {
+
+        document.getElementById("PrintBtn").style.display = "inline";
+    }
+
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+
+
+</script>
+<script language="javascript" type="text/javascript">
+
+    function GetVendors(_routeId) {
+       
+        var url = "/Vendors/AllVendorsByRouteID/";
+        var vendorslist = "#VendorsDD";
+       
+        $.ajax({
+            url: url,
+            data: {RouteID: _routeId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                $("#VendorsDD").html(data);
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+    }
+    function GetContract(_VedorID) {
+        alert(_VedorID);
+        var url = "/Vendors/GetVendorsContractByID/";
+        var vendorslist = "#ContractDD";
+        $.ajax({
+            url: url,
+            data: {VB_ID: _VedorID},
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                
+                $("#ContractDD").html(data);
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+       }
+</script>
+
+
+@*<div class=" col-lg-2">or Write Name</div>
+    <div class="col-lg-2">
+        <input list="VBName" dir="rtl" class="form-control" type="text" id="VBName" name="VBName">
+        <datalist id="VBName">
+            @foreach (var v in V_Branches)
+            {
+                <text>
+                    <option value="@v.VENDOR.V_NAME">
+                </text>
+            }
+    </datalist>
+    </div>*@

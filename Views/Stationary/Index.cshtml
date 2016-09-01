@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    var TotalMAinSt = BusinessEntities.EntityBO.StationaryBO.GetTotalMainSt();
+    var TotalIssueSt = BusinessEntities.EntityBO.StationaryBO.GetTotalIssueSt();
+    
+    
+    
+}
+
+<h2>Stationary</h2>
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-th-list fa-5x "></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@TotalMAinSt</div>
+                        <div>Total Main Stock</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("Main_Stock", "Stationary", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">See All Main Stock</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-indent fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@TotalIssueSt</div>
+                        <div>Total Issue Stock</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("Issue_Stock","stationary",null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">See All Issue Stock</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    @*<div class="col-lg-4 col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-copy fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">12</div>
+                        <div>Total Post Date Cheques</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("index", "Bank", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">See All Cheques</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>*@
+</div>

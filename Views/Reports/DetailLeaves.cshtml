@@ -1,0 +1,46 @@
+﻿@model DATAMODEL.VENDOR_BRANCH
+@{
+    ViewBag.Title = "DetailLeaves";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    DateTime sdate = ViewBag.sdate;
+    DateTime edate = ViewBag.edate;
+}
+
+<h2>Detail Leaves</h2>
+
+
+<div class="row">
+    <div class="col-lg-12 table-responsive">
+        <table id="dataTables-1" class="table table-bordered table-hover table-striped">
+            @{int rowNo = 0;}
+            <thead>
+                <tr><th>@Model.ROUTE.NAME</th><th>@Model.VBNAME @Model.ADDRESS</th><th> @sdate.ToShortDateString() To @edate.ToShortDateString()</th></tr>
+                <tr>
+                    <th>
+                        Sr No.
+                    </th>
+                    <th>Entry Date</th>
+                    <th>Driver</th>
+                    <th>Vehicle #</th>
+                    
+                </tr>
+            </thead>
+
+            <tbody>
+                  @foreach (var item in Model.VENDOR_ROUTE_ENTRY.Where(m => m.SLIP_NO == -1 
+                                                                       && m.ROUTE_ENTREES.ENTRY_DATE>=sdate 
+                                                                       &&m.ROUTE_ENTREES.ENTRY_DATE<=edate).ToList())
+                  {
+                    <tr>
+                        <td>@{rowNo++;}@rowNo</td>
+                        <td> @item.ROUTE_ENTREES.ENTRY_DATE </td>
+                        <td> @item.ROUTE_ENTREES.DRIVER.DR_NAME </td>
+                        <td> @item.ROUTE_ENTREES.VEHICLE.VEHICLE_NO </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+</div>

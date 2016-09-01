@@ -1,0 +1,85 @@
+﻿@model DATAMODEL.VENDOR_BRANCH
+@{
+    ViewBag.Title = "PrintVendorContract1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var pyment = @Model.PYMENTs.Where(p => p.V_BRANCH_ID == @Model.VENDOR_BRANCH_ID && p.IS_ACTIVE == true).FirstOrDefault();
+    var cheque = @Model.BANK_RECORDS.Where(p => p.V_BRANCH_ID == @Model.VENDOR_BRANCH_ID && p.IS_ACTIVE == true).FirstOrDefault();
+}
+
+<h2>Print Vendor Contract</h2>
+<div id="PrintableDiv">
+    <div class="row">
+        <div class="col-md-2 col-md-offset-1 col-sm-4 col-xs-4">
+            <img src='@Url.Action("getImage", "Vendors", new { id = @Model.VENDOR_ID })' width="120" height="130" />
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-8">
+            <h1 style="text-align:center"><strong>  یاد داشت /امانت نامہ </strong></h1>
+            <h1 style="text-align:center"><strong>  بحق:ایشیا پولٹری پروٹین </strong></h1>
+            <h5 style="text-align:center"><strong> سکنہ 2 کلو میٹر ڈیفنس روڈ لاہور </strong></h5>
+        </div>
+    </div>
+
+
+    @*<div class="row "><span class="col-md-6" style="text-align:right">   ساکن   </span><span class="col-md-6" style="text-align:right">منکہ   </span> </div>*@
+
+
+    <p style="text-align:right">منکہ۔ <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span><strong>@Model.VBNAME </strong> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>ساکن ۔<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span><strong>@Model.ADDRESS</strong></span><span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+    <p style="text-align:right">      مدت معاہدہ۔۔۔  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span> <strong> @Model.START_DATE.Value.ToString("dd-MM-yyyy") -</strong> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span> <span> <strong>@Model.END_DATE.Value.ToString("dd-MM-yyyy")</strong></span>   ۔طے پایا <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  <span style="float:right">. 1</span></p>
+    @if (@Model.PYMENT_TYPE == 1)
+    {
+        <p style="text-align:right">      بطور امنت رقم۔ <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span> <strong> @pyment.ADVANCE_AMOUNT     </strong> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span> <span></span>  ۔وصول پائی <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  <span style="float:right">. 2</span></p>
+    }
+    else if (@Model.PYMENT_TYPE == 2)
+    {<p style="text-align:right">    ۔چیک/کیش  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span> <strong>  @cheque.CHEQUE_NO   @cheque.AMOUNT </strong><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="float:right"> .3</span></p>
+    }
+    else
+    {
+        <p style="text-align:right">      بطور امنت رقم۔ <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span> <strong> @pyment.ADVANCE_AMOUNT  </strong> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span> <span></span>  ۔وصول پائی <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  <span style="float:right">. 2</span></p>
+        <p style="text-align:right">    ۔چیک/کیش  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span> <strong>@cheque.CHEQUE_NO-- @cheque.AMOUNT--Date: @cheque.CASH_DATE.Value.ToString("dd-mm-yyyy")  </strong><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="float:right"> .3</span></p>
+    }
+
+    <p style="text-align:right">    ریٹ فی من کچرا۔ <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span> <strong>@Model.RATE_FEMAN</strong><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span> <span></span>    <span style="float:right">. 4</span></p>
+
+    <p style="text-align:right">   ماہوار کچرا سپلائی <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span><strong> @Model.MONTHLY_WASTE</strong> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span> <span></span>  <span style="float:right">. 5</span></p>
+
+    <p style="text-align:right"> ۔یہ کہ میں میعاد معاہدہ ہذاتک اپنی دکان یا دیگر دکانداروں سے مرغی کچرا ایشیا پولٹری پروٹین کو سپلائی کروں گا     <span style="float:right"> .6</span></p>
+    <p style="text-align:right"> ۔کسی دیگر پارٹی کو سپلائی نہ کروں گا </p>
+
+    <p style="text-align:right">    ۔ یہ کہ سپلائی شدہ مال(کچرا)کی ادائیگی بطور امانت دی گئی رقم میں سے ہو گی    <span style="float:right"> .7</span></p>
+    <p style="text-align:right">    ۔ یہ کہ میں بطور امانت رقم کو ذاتی استعمال میں نہ لاؤں گا اگر امانت شدہ رقم کو اپنے ذاتی     <span style="float:right"> .8</span></p>
+    <p style="text-align:right">    ۔استعمال میں لایا تو میں خیانت مجرمانہ کا مرتکب ہوں گا    </p>
+    <p style="text-align:right">        ۔۔  اگر سپلائی بند ہونے کی وجہ سے ایشیا پولٹری پروٹین کو کوئی نقصان ہوا تو اس کی ذمہ داری مجھ پر ہو گی  <span style="float:right"> .9</span></p>
+    <p style="text-align:right">    ۔  یہ کہ کسی قسمکاایشو/ ڈسپیوٹ سامنے آنے پر اور فیصلہ ہونے تک میں ایشیا پولٹری پروٹین کو مال سپلائی کرتا رہوں گا    <span style="float:right"> .10</span></p>
+    <p style="text-align:right">    ۔  یہ کہ پولٹری پروٹین اور چکن ریٹوں کی کمی کی وجہ سے کچرے کا ریٹ بھی تبدیل ہو گا    <span style="float:right"> .11</span></p>
+    <p style="text-align:right">     ۔ یہ کہ کسی بھی تعطیل ، ہڑتال کی صورت میں ایشیا پولٹری پروٹین مال اٹھانے کی پابند ہو گی   <span style="float:right"> .12</span></p>
+    <p style="text-align:right">    ۔ تمام مرغی کچرا (مال) اور رقم ایشیا پولٹری پروٹین کا میرے پاس بطور امانت ہو گا۔اگر امانت میں خیانت کروں گا تو ایشیا پولٹری پروٹین     <span style="float:right"> .13</span></p>
+    <p style="text-align:right">    ۔ کو حق حاصل ہو گا کہ میرے خلاف قانونی کاروائی (فوجداری و دیوانی) کرے جس پر مجھے کوئی اعتراض نہ ہو گا</p>
+    <p style="text-align:right">    ۔ فریقین نے باہمی رضا مندی سے یادداشت/امانت نامہ پر روبرو گواہان حاثیہ اپنے دستخط اور انگوٹھا جات ثبت کر دیے ہیں تا کہ سند رہے اور بوقت ضرورت کام آوے    </p>
+
+
+    <b> <p style="text-align:right"><span style="text-align:left;margin-left: 251px;"> العبد۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔</span>          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>         العبد۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔</p></b>
+    <p style="text-align:right">ایشیا پولٹری پروٹین</p>
+    <b> <p style="text-align:right"> <span style="text-align:left;margin-left: 251px;"> گواہ شد۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔  </span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>      گواہ شد۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔۔</p>  </b>
+
+
+</div>
+
+<input type="button"  class="btn-success" onclick="printDiv('PrintableDiv')" value="print Contract !" />
+
+<script>
+    
+
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
+
+
+</script>

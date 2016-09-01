@@ -1,0 +1,88 @@
+﻿@model IEnumerable<DATAMODEL.BANK_RECORDS>
+@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    var V_Branches = BusinessEntities.DropDownBO.DropDownBO.AllVendor_Branches().OrderBy(vndr => vndr.VBNAME);
+    var All_Routes = BusinessEntities.DropDownBO.DropDownBO.AllRoutes();
+    DATAMODEL.ROUTE rt = new DATAMODEL.ROUTE();
+    rt.ROUTE_ID = -1;
+    rt.NAME = "All Routes";
+    All_Routes.Add(rt);
+}
+
+@using (Html.BeginForm("ReportCancelcheques", "Reports", FormMethod.Post))
+{<div class="row">
+        <div class="col-md-6  ">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Cancel cheques</h3>
+                </div>
+                <div class="col-lg-6 ">
+
+                    <h3> @ViewBag.RouteName </h3>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6  well well-sm">
+
+            <div class="row">
+                <div class="col-lg-4">
+                    Select Route
+                </div>
+                <div class=" col-lg-6">
+                    @Html.DropDownList("Route_ID", All_Routes.Select(m => new SelectListItem { Text = m.NAME, Value = m.ROUTE_ID.ToString() }), "--Select Route--"
+                     , new { @class = "form-control ", @required = true, id = "Route_DropDown" })
+                </div>
+                <div class="col-lg-2 ">
+                    <input type="submit" value="search" class="form-control btn btn-success" name="V_Name" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+<table id="dataTables-1" class="table table-bordered table-hover table-striped">
+    @{int rowNo = 0;}
+    <thead>
+        <tr>
+            <th>
+                Sr No.
+            </th>
+            <th> Name</th>
+            <th>Address</th>
+            <th>Cash Date</th>
+            <th>Amount </th>
+            <th>Cheque #</th>
+            <th>Bank Name</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@{rowNo++;}@rowNo</td>
+
+                <td>@item.VENDOR_BRANCH.VBNAME </td>
+                <td>@item.VENDOR_BRANCH.ADDRESS</td>
+                <td>@item.CASH_DATE</td>
+                <td>@item.AMOUNT</td>
+                <td>@item.CHEQUE_NO</td>
+                <td>@item.BANKS_NAME.BANK_NAME</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
+
+

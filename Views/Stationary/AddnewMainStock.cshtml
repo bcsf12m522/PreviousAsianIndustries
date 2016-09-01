@@ -1,0 +1,54 @@
+﻿@model DATAMODEL.ST_MAIN_STOCK
+@{
+    ViewBag.Title = "AddnewMainStock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Add new Main Stock</h2>
+
+@using (Html.BeginForm("AddnewMainStock", "Stationary", FormMethod.Post))
+{
+
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-2">
+            <label>Stationary Name</label>
+        </div>
+        <div class="col-lg-3">
+       @Model.STATIONARY_TYPES.STATIONARY_NAME
+            <input type="hidden" name="Stationary_ID" value="@Model.ST_MAIN_STOCK_ID" />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-2">
+            <label>Start Serial</label>
+        </div>
+        <div class="col-md-3">
+           @Model.START_M_SERIAL
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-2">
+            <label>Start Serial</label>
+        </div>
+        <div class="col-md-3">
+            @Model.CURRENT_START_SR
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-2">
+            <label>End Serial</label>
+        </div>
+        <div class="col-md-3">
+            <input type="number" step="100" min="@Model.END_M_SERIAL" name="End_Serial" value="@Model.END_M_SERIAL" /> 
+        </div>
+    </div>
+   
+    <br />
+    <div class="row">
+        <div class="col-lg-5 col-lg-offset-2 ">
+            <input class="pull-right btn-primary btn-sm" type="submit" value="Add new Stock" />
+        </div>
+    </div>
+}

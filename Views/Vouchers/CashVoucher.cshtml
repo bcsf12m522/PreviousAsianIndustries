@@ -1,0 +1,41 @@
+﻿@model DATAMODEL.VENDOR_BRANCH
+           @{
+               var allCashHeads = BusinessEntities.DropDownBO.DropDownBO.ALLCashHeadNames();
+               
+           }
+<br />
+        <div class="row">
+            <div class="col-md-10 ">
+@using (Ajax.BeginForm("DetailPymentDebitCredit", "Vouchers", new AjaxOptions{ 
+                                                        HttpMethod ="POST",
+                                                        OnComplete="ActiveprintBtn",
+                                                        UpdateTargetId ="voucherDiv",
+                                                        InsertionMode = InsertionMode.Replace
+                                                      }))
+                        {
+                <table class="table table-bordered table-hover table-striped ">
+                   
+                    <tbody>
+                      
+                            <tr><td> Name</td><td>@Model.VENDOR_BRANCH_ID  @Model.VBNAME @Model.ADDRESS- کھاتہ نمبر </td></tr>
+                            <tr><td>Amount </td><td><input type="number" name="Amount" required="required" class="form-control" placeholder="Amount" style="background-color:#CCFFCC;"></td></tr>
+                            <tr><td> Head Name</td>
+                            <td>@Html.DropDownList("Head_id", allCashHeads.Select(m => new SelectListItem { Text = m.NAME, Value = m.HEAD_NAME_ID.ToString() }), "--Select Head Name--"
+                              , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Head_id" })
+
+                                <input type="date" name="pymentDate" required="required" class="form-control" style="background-color:#CCFFCC;"></td></tr>
+                            <tr><td> Pyment Date</td><td><input type="date" name="pymentDate" required="required" class="form-control" style="background-color:#CCFFCC;"></td></tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="hidden" value="@Model.VENDOR_BRANCH_ID" name="VENDOR_BRANCH_ID" />
+                                    <input type="hidden" value="@Model.ROUTE.ROUTE_ID" name="Route_ID" />
+                                    <input type="hidden" value="@Model.VENDOR_ID" name="VENDOR_ID" />
+                                    <input type="submit" value="Add Cash"  class="btn btn-success">
+                                </td>
+                            </tr>
+                        
+
+                    </tbody>
+                </table>}
+            </div>
+    </div>

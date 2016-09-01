@@ -1,0 +1,42 @@
+﻿@model DATAMODEL.BANK_RECORDS
+@{
+    ViewBag.Title = "ReplaceCheque";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Banks = BusinessEntities.DropDownBO.DropDownBO.AllBanks();
+}
+
+<h2>Replace Cheque</h2>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <table class="table table-bordered table-hover table-striped ">
+            <thead>
+                <tr><th>Name</th><th>@Model.VENDOR_BRANCH.VBNAME @Model.VENDOR_BRANCH.ADDRESS</th></tr>
+            </thead>
+            <tbody>
+
+                @using (Html.BeginForm("ReplaceCheque", "Bank", FormMethod.Post))
+                {
+                    <tr><td>cheque No</td><td><input type="text"  value="@Model.CHEQUE_NO" name="chequeNo" required="required" class="form-control" placeholder="Cheque No" style="background-color:#CCFFCC;"> </td></tr>
+                    <tr><td>Amount </td><td><input type="number" value="@Model.AMOUNT" name="Amount" required="required" class="form-control" placeholder="Amount" style="background-color:#CCFFCC;"></td></tr>
+                    <tr>
+                        <td>Bank </td>
+                        <td>
+                            @Html.DropDownList("BankNameID", Banks.Select(m => new SelectListItem { Text = m.BANK_NAME, Value = m.BANKNAME_ID.ToString() }), "--Select Bank--"
+                                              , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Bank_ID", style = "background-color:#CCFFCC;" })
+                        </td>
+                    </tr>
+                    <tr><td>Cash Date </td><td><input type="date" name="cashDate" required="required" class="form-control" style="background-color:#CCFFCC;"/></td></tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="hidden" value="@Model.V_BRANCH_ID" name="V_BRANCH_ID" />
+                            <input type="hidden" value="@Model.VANDOR_ID" name="VENDOR_ID" />
+                            <input type="hidden" value="@Model.BANK_ID" name="BankID" />
+                            <input type="submit" value="Replace Cheque" class="btn btn-success">
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

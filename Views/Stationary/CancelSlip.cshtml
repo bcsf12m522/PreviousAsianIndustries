@@ -1,0 +1,73 @@
+﻿@model DATAMODEL.ST_ISSUE_STOCK
+
+@{
+    ViewBag.Title = "CancelSlip";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Cancel Slips</h2>
+
+
+<div class="row">
+    <div class="col-lg-12 table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            @{int rowNo = 0;}
+            <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th> Serial Number</th>
+                    <th>Option</th>
+                </tr>
+            </thead>
+            @using (Html.BeginForm("CancelSlip", "Stationary", FormMethod.Post))
+            {
+                <tbody>
+                    <tr><td><input name="Issue_st_ID" type="hidden" value="@Model.ST_ISSUE_STK_ID" /></td></tr>
+                    @for (long i = (long)@Model.START_ISSUE_SERIAL; i <= (long)@Model.END_ISSUE_SERIAL; i++)
+                    {   int usedslipstatus=0;
+                        foreach (var usedSlip in @ViewBag.UsedSlips) {
+                            if (usedSlip == i) {
+                                usedslipstatus++;
+                            }
+                        }
+                        if (usedslipstatus == 0)
+                        {
+                            int counter = 0;
+                            if (@ViewBag.CancelSlips != null)
+                            {
+                                foreach (var al_ready_cancle in @ViewBag.CancelSlips)
+                                {
+                                    if (al_ready_cancle.CANCEL_NO == i)
+                                    { { counter++; } }
+                                }
+                            }
+                            if (@counter != 0)
+                            {
+                                <tr style="background-color:yellow;">
+                                    <td>@{rowNo++;}@rowNo</td>
+                                    <td>@i </td>
+                                    <td><input type="checkbox" value="@i" name="Cancel_slip" checked="checked" /></td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>@{rowNo++;}@rowNo</td>
+                                    <td>@i </td>
+                                    <td><input type="checkbox" value="@i" name="Cancel_slip" /></td>
+                                </tr>
+
+                            }
+                        }
+                    }
+                    <tr>
+                        <td><input type="submit" value="submit " class="btn-sm btn-primary pull-right" /></td>
+                    </tr>
+                </tbody>
+
+
+            }
+            
+        </table>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+﻿@model DATAMODEL.VENDOR_BRANCH
+           @{
+               var Banks = BusinessEntities.DropDownBO.DropDownBO.AllBanks();
+           }
+<br />
+<div class="row">
+    <div class="col-md-10 ">
+        @using (Ajax.BeginForm("AddNewCheque", "Vouchers", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            OnComplete = "ActiveprintBtn",
+            UpdateTargetId = "voucherDiv",
+            InsertionMode = InsertionMode.Replace
+        }))
+        {
+            <table class="table table-bordered table-hover table-striped ">
+
+                <tbody>
+                    <tr><td> Name</td><td>@Model.VENDOR_BRANCH_ID  @Model.VBNAME @Model.ADDRESS- کھاتہ نمبر </td></tr>
+                    <tr><td>cheque No</td><td><input type="text" name="chequeNo" required="required" class="form-control" placeholder="Cheque No" style="background-color:#CCFFCC;"> </td></tr>
+                    <tr><td>Amount </td><td><input type="number" name="Amount" required="required" class="form-control" placeholder="Amount" style="background-color:#CCFFCC;"></td></tr>
+                    <tr>
+                        <td>Bank </td>
+                        <td>
+                            @Html.DropDownList("BankName_ID", Banks.Select(m => new SelectListItem { Text = m.BANK_NAME, Value = m.BANKNAME_ID.ToString() }), "--Select Bank--"
+                                              , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Bank_ID", style = "background-color:#CCFFCC;" })
+                        </td>
+                    </tr>
+                    <tr><td>Issue Date </td><td><input type="date" name="IssueDate" required="required" class="form-control" style="background-color:#CCFFCC;"></td></tr>
+                    <tr><td>Cash Date </td><td><input type="date" name="CashDate" required="required" class="form-control" style="background-color:#CCFFCC;"></td></tr>
+                   
+                    <tr>
+                        <td colspan="2">
+                            <input type="hidden" value="@Model.VENDOR_BRANCH_ID" name="VENDOR_BRANCH_ID" />
+                            <input type="hidden" value="@Model.VENDOR_ID" name="VENDOR_ID" />
+                            <input type="submit" value="Add Cheque" class="btn btn-success">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>}
+    </div>
+</div>

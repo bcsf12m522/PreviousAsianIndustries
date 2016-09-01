@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "VendorLedger";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var V_Branches = BusinessEntities.DropDownBO.DropDownBO.AllVendor_Branches().OrderBy(vndr=>vndr.VBNAME);  
+}
+
+<h2>Ledgers</h2>
+<div class="row">
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <a href="@Url.Action("vendorWiseLedger", "Ledger", new {w=false })" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Vendors Ledger with out Weight</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <a href="@Url.Action("vendorWiseLedger", "Ledger", new {w=true })" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Vendors Ledger with Weight</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <a href="@Url.Action("RouteWiseLedger", "Ledger", new {w=true })" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Routes Ledgers With Weight</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <a href="@Url.Action("RouteWiseLedger", "Ledger", new { w = false })" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Routes Ledgers Without Weight</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

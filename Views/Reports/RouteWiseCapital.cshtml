@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "RouteWiseLedger";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //var V_Branches = BusinessEntities.DropDownBO.DropDownBO.AllVendor_Branches().OrderBy(vndr => vndr.VBNAME);
+    var All_Routes = BusinessEntities.DropDownBO.DropDownBO.AllRoutes();
+
+}
+<h2> Route Wise Capital Report</h2><hr />
+@using (Ajax.BeginForm("RouteWiseCapital", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "Updatediv",
+    InsertionMode = InsertionMode.Replace
+}))
+{<div class="row">
+        <div class="col-md-9 col-md-offset-2 well well-sm">
+            @*<div class="row">
+                <div class=" col-lg-2">Start Date</div>
+                <div class="col-lg-3 "><input class="form-control" type="date" name="start_date" required="required" /></div>
+                <div class="col-lg-2">End Date</div>
+                <div class="col-lg-3"><input type="date" class="form-control" name="End_date" required="required" /></div>
+            </div>
+            <br />*@
+            <div class="row">
+                <div class="col-lg-3 ">
+                    Select route
+                </div>
+                <div class=" col-lg-4 ">
+                    @Html.DropDownList("Route_ID", All_Routes.Select(m => new SelectListItem { Text = m.NAME, Value = m.ROUTE_ID.ToString() }), "--Select Route--"
+                     , new { @class = "form-control ", @required = true, @dir = "rtl", id = "Route_DropDown" })
+                </div>
+                
+                <div class="col-lg-offset-1 col-lg-2">
+                    <input type="submit" value="search" class="form-control btn btn-success" name="V_Name" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="clearfix"></div>
+<div class="row" id="PrintableDiv">
+    <div class="col-lg-10 col-lg-offset-1">
+        <div id="Updatediv"></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

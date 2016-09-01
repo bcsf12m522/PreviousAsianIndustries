@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "BalanceTransfer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var VendorBranches = BusinessEntities.DropDownBO.DropDownBO.AllVendor_Branches().ToList();
+    //var CashVendorBranches = BusinessEntities.DropDownBO.DropDownBO.AllVendor_Branches().Where(m => m.PYMENT_TYPE == 1 || m.PYMENT_TYPE == 3).ToList();
+
+}
+
+<h2>Balance Transfer</h2>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 table-responsive">
+        <table class="table table-bordered table-hover table-striped ">
+            <thead>
+                <tr>
+                    <th colspan="3">
+                       Cash Transfer
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @using (Ajax.BeginForm("BalanceTransferTO", new AjaxOptions
+                                                    {
+                                                        HttpMethod = "POST",
+                                                        UpdateTargetId = "Updatedivcash",
+                                                        OnComplete = "ActiveprintBtn",
+                                                        InsertionMode = InsertionMode.Replace
+                                                    }))
+                    {
+                        <th>
+                          From
+                        </th>
+                        <td>
+                            @Html.DropDownList("VendorB_ID", VendorBranches.Select(m => new SelectListItem { Text = m.VBNAME + " " + m.ADDRESS, Value = m.VENDOR_BRANCH_ID.ToString() }), "--Select Vendor--"
+                                                  , new { @class = "span2  form-control", @required = true, id = "Bank_ID", style = "background-color:#CCFFCC; dir:rtl" })
+                        </td>
+                        <td>
+                            
+                            <input type="submit" value="Go for transfer " class="btn btn-success" />
+                        </td>
+                      }
+                </tr>
+            </tbody>
+        </table>       
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div id="Updatedivcash"></div>
+    </div>
+</div>
+
+
+@*<div class="row">
+    <div class="col-md-8 col-md-offset-2 table-responsive">
+        <table class="table table-bordered table-hover table-striped ">
+            <thead>
+                <tr>
+                    <th colspan="3">
+                      Cheque Transfer
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                   @using (Ajax.BeginForm("BalanceTransferTO", new AjaxOptions
+                                                    {
+                                                        HttpMethod = "POST",
+                                                        UpdateTargetId = "UpdatedivCheque",
+                                                        OnComplete = "ActiveprintBtn",
+                                                        InsertionMode = InsertionMode.Replace
+                                                    }))
+                   {
+                        <th>
+                            From 
+                        </th>
+                        <td>
+                            @Html.DropDownList("ChequeVendorB_ID", VendorBranches.Select(m => new SelectListItem { Text = m.VENDOR.V_NAME + " " + m.ADDRESS, Value = m.VENDOR_BRANCH_ID.ToString() }), "--Select Vendor--"
+                                              , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Bank_ID", style = "background-color:#CCFFCC;" })
+
+                        </td>
+                        <td>
+                            <input type="hidden" name="TransferType" value="2" />
+                            <input type="submit" value="Get Amount" class="btn btn-success" />
+                        </td>
+
+                    }
+                  
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="row" >
+    <div class="col-lg-8 col-lg-offset-2">
+        <div id="UpdatedivCheque"></div>
+    </div>
+</div>*@
+
+                @*<div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <table class="table table-bordered table-hover table-striped ">
+                            <thead>
+                                <tr><th>Name</th><th>@Model.VENDOR_BRANCH.VENDOR.V_NAME @Model.VENDOR_BRANCH.ADDRESS</th></tr>
+                            </thead>
+                            <tbody>
+                                @using (Html.BeginForm("BalanceTransfer", "Bank", FormMethod.Post))
+                                {
+                                    <tr><td>Balance</td><td>@Model.AMOUNT </td></tr>
+                                    <tr><td>Amount </td><td>@Model.CHEQUE_NO</td></tr>
+                                    <tr>
+                                        <td>Select Vendor</td>
+                                        <td>
+                                            @Html.DropDownList("Bank_ID", VendorBranches.Select(m => new SelectListItem { Text = m.VENDOR.V_NAME + " " + m.ADDRESS, Value = m.VENDOR_BRANCH_ID.ToString() }), "--Select Vendor--"
+                                              , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Bank_ID", style = "background-color:#CCFFCC;" })
+                                        </td>
+                                    </tr>
+                                    <tr><td>Cash Date </td><td><input type="date" name="CashDate " required="required" class="form-control" style="background-color:#CCFFCC;"></td></tr>
+
+                                    <tr>
+                                        <td colspan="2">
+                                            <input type="hidden" value="@Model" name="VENDOR_BRANCH_ID" />
+                                            <input type="hidden" value="@Model" name="VENDOR_ID" />
+                                            <input type="submit" value="Add Cheque" class="btn btn-success">
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>*@
+

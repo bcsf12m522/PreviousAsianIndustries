@@ -1,0 +1,194 @@
+﻿@model DATAMODEL.VENDOR_BRANCH
+@{
+    ViewBag.Title = "RenewContract";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Routes = BusinessEntities.EntityBO.RouteBO.GetAllRoutesList();
+    var Banks = BusinessEntities.DropDownBO.DropDownBO.AllBanks();
+    var Goods = BusinessEntities.DropDownBO.DropDownBO.AllGoods();
+}
+<h2>Renew Contract</h2>
+
+@using (Html.BeginForm("RenewContract", "Vendors", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-2">
+            Select Contract Type :
+        </div>
+        <div class="col-lg-6">
+            <label><input id="C_Type" name="C_Type" value="1" required="required" type="radio" /> Advance Payment</label>&nbsp;&nbsp;
+            <label><input id="C_Type" name="C_Type" value="2" required="required" type="radio" /> Yearly Payment</label>&nbsp;&nbsp;
+            <label><input id="C_Type" name="C_Type" value="3" required="required" type="radio" /> Cash Payment</label>&nbsp;&nbsp;
+        </div>
+        <input type="hidden" name="PreviousBalance" value="@ViewBag.PreviousBalance" />
+    </div><br />
+    <div class="row">
+        <div class="col-md-8 col-lg-offset-2">
+            previous Balance :Rs @ViewBag.PreviousBalance 
+        </div>
+    </div>
+    <div class="row" dir="rtl">
+        <div class="col-lg-4 col-lg-offset-2">
+            <input id="Address" name="Address" placeholder=" ایڈریس " value="@Model.ADDRESS" required="required" class="form-control" type="text" dir="rtl" style="background-color:#CCFFCC;">
+            <input type="hidden" name="V_BRANCH_ID" value="@Model.VENDOR_BRANCH_ID" />          
+        </div>
+        <div class="col-lg-4">
+            <input id="V_Name" name="V_Name" placeholder=" نام  " value="@Model.VBNAME" required="required" class="form-control" type="text" dir="rtl" style="background-color:#CCFFCC;">
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-2">
+            CNIC #
+        </div>
+        <div class="col-lg-2 ">
+            <input id="CNIC" name="CNIC" value="@Model.VENDOR.CNIC" class="form-control" type="text" style="background-color:#CCFFCC;">
+        </div>
+        <div class="col-lg-1 ">
+            Image
+        </div>
+        <div class="col-lg-3 ">
+            <input type="file"  id="V_Image" name="file" class="form-control" style="background-color:#CCFFCC;" />
+        </div>
+    </div><br />
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-2">
+            Rate 40 Kg
+        </div>
+        <div class="col-lg-2 ">
+            <input id="Rate" name="Rate" onkeyup="calculateRateperKg()" value="@Model.RATE_FEMAN" placeholder=" Rate 40 kg " class="form-control" type="text" style="background-color:#CCFFCC;">
+        </div>
+        <div class="col-lg-2 ">
+            Monthly Waste in Kg
+        </div>
+        <div class="col-lg-2 ">
+            <input type="text" required="required" title="Monthly_waste" value="@Model.MONTHLY_WASTE" id="Monthly_waste" name="Monthly_waste" class="form-control" style="background-color:#CCFFCC;" />
+        </div>
+    </div><br />
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-2">
+            Rate per Kg
+        </div>
+        <div class="col-lg-2 ">
+            <label id="ratePerKg"> </label>
+        </div>
+        <div class="col-lg-2 ">
+            Phone Number
+        </div>
+        <div class="col-lg-2 ">
+            <input type="text" required="required" title="phone Number" value="@Model.PHONE_NO" id="Phone_no" name="Phone_no" class="form-control" style="background-color:#CCFFCC;" />
+        </div>
+    </div><br />
+
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-2 ">
+            Select Goods
+        </div>
+        <div class="col-lg-2">
+            <select class="form-control" required="required" id="Goods_id" name="Goods_id" style="background-color:#CCFFCC;">
+                <option value="1">Chicken Waste</option>
+                
+            </select>
+        </div>
+
+        <div class="col-lg-2">
+            Select Route
+        </div>
+        <div class="col-lg-2">
+            @Html.DropDownList("RouteID", Routes.Select(m => new SelectListItem { Text = m.NAME, Value = m.ROUTE_ID.ToString() }), "--Select Route--"
+               , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Menu_DropDown", style = "background-color:#CCFFCC;" })
+        </div>
+    </div>
+<br />
+      <div class="row">
+        <div class="col-lg-2 col-lg-offset-2 ">
+            Contract Date:
+        </div>
+        <div class="col-lg-2">
+            <input type="date" id="Contract_date" name="Contract_date" class="form-control" style="background-color:#CCFFCC;" />
+        </div>
+    </div>
+    <div name="part2" id="part2">
+        <div class="row">
+            <div class="col-lg-2 col-lg-offset-2">
+                Start Date
+            </div>
+            <div class="col-lg-2 ">
+                <input type="date" id="end_date" name="end_date" class="form-control"  style="background-color:#CCFFCC;" />
+            </div>
+            <div class="col-lg-2">
+                End Date
+            </div>
+            <div class="col-lg-2 ">
+                <input type="date" id="start_date" name="start_date"  class="form-control" style="background-color:#CCFFCC;" />
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col-lg-2 col-lg-offset-2">
+                Payment Type
+            </div>
+            <div class="col-lg-4">
+                <label> <input type="radio" value="1" required="required" id="pyment_type" name="pyment_type" /> cash</label>
+                <label> <input type="radio" value="2"  id="pyment_type" required="required" name="pyment_type" /> cheque</label>
+                <label> <input type="radio" value="3" checked="checked" id="pyment_type" required="required" name="pyment_type" /> both</label>
+            </div>
+        </div>
+        <div name="div-cash" id="div-cash" class="row">
+            <div class="col-lg-2 col-lg-offset-2">
+                Advance Payment
+            </div>
+            <div class="col-lg-2">
+                <input id="Advance_pyment" name="Advance_pyment" placeholder=" ایڈوانس رقم  " class="form-control" type="text" dir="rtl" style="background-color:#CCFFCC;">
+            </div>
+            <div class="col-lg-2 ">
+                Date
+            </div>
+            <div class="col-lg-2">
+                <input id="Pyment_Date" name="Pyment_Date" class="form-control" type="date" style="background-color:#CCFFCC;">
+            </div>
+        </div>
+        <br />
+        <div display="none" name="cheque_div" id="cheque_div">
+            <div class="row">
+                <div class="col-lg-2 col-lg-offset-2">
+                    Cheque No
+                </div>
+                <div class="col-lg-2">
+                    <input type="text" id="cheque_no" name="cheque_no" placeholder=" cheque No  " class="form-control" style="background-color:#CCFFCC;" />
+                </div>
+                <div class="col-lg-2">
+                    Cheque Amount
+                </div>
+                <div class="col-lg-2">
+                    <input id="cheque_Amnt" name="cheque_Amnt" placeholder=" Cheque Amount  " class="form-control" type="text" dir="rtl" style="background-color:#CCFFCC;">
+                </div>
+            </div><br />
+            <div class="row">
+                <div class="col-lg-2 col-lg-offset-2">
+                    Bank Name
+                </div>
+                <div class="col-lg-2">
+                    @Html.DropDownList("Bank_ID", Banks.Select(m => new SelectListItem { Text = m.BANK_NAME, Value = m.BANKNAME_ID.ToString() }), "--Select Bank--"
+                , new { @class = "span2 searchcss form-control searchselect",  id = "Bank_ID", style = "background-color:#CCFFCC;" })
+                </div>
+                <div class="col-lg-2">
+                    Cash Date
+                </div>
+                <div class="col-lg-2">
+                    <input id="cash_date" name="cash_date" class="form-control" type="date" style="background-color:#CCFFCC;">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 col-lg-offset-2">Issue Date</div>
+                <div class="col-lg-2 "><input id="issue_date" name="issue_date" class="form-control" type="date" style="background-color:#CCFFCC;"></div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-2">
+            <input type="submit" value="Add new Vendor and Print Contract " class="btn btn-primary btn-sm" />
+        </div>
+    </div>
+
+}
+

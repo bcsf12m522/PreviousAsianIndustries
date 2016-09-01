@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var V_Branches = BusinessEntities.DropDownBO.DropDownBO.AllVendor_Branches().OrderBy(vndr => vndr.VBNAME);
+    var All_Routes = BusinessEntities.DropDownBO.DropDownBO.AllRoutes();
+
+}
+<h2> Leaves Report</h2><hr />
+@using (Ajax.BeginForm("LeavesReport", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "Updatediv",
+    OnComplete = "ActiveprintBtn",
+    InsertionMode = InsertionMode.Replace
+}))
+{<div class="row">
+        <div class="col-md-10 col-md-offset-1 well well-sm">
+            <div class="row">
+                <div class=" col-lg-2">Start Date</div>
+                <div class="col-lg-3 "><input class="form-control" type="date" name="start_date" required="required" /></div>
+                <div class="col-lg-2">End Date</div>
+                <div class="col-lg-3"><input type="date" class="form-control" name="End_date" required="required" /></div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-2">
+                    Select Route
+                </div>
+                <div class=" col-lg-3">
+                    @Html.DropDownList("Route_ID", All_Routes.Select(m => new SelectListItem { Text = m.NAME, Value = m.ROUTE_ID.ToString() }), "--Select Route--"
+                     , new { @class = "form-control ", @required = true, @dir = "rtl", id = "Route_DropDown" })
+                </div>
+                <div class="col-lg-3 col-lg-offset-2">
+                    <input type="submit" value="search" class="form-control btn btn-success" name="V_Name" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="clearfix"></div>
+<div class="row" id="PrintableDiv">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div id="Updatediv"></div>
+    </div>
+</div>
+<i id="PrintBtn" class="fa fa-print fa-5x" style=" display:none" onclick="printDiv('PrintableDiv')"></i>
+<script>
+    function ActiveprintBtn() {
+
+        document.getElementById("PrintBtn").style.display = "inline";
+    }
+
+    function printDiv(divName) {
+
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+    //function GetVendors(_routeId) {
+
+    //    var url = "/Vendors/AllVendorsByRouteID/";
+    //    var vendorslist = "#VendorsDD";
+
+    //    $.ajax({
+    //        url: url,
+    //        data: { RouteID: _routeId },
+    //        cache: false,
+    //        type: "POST",
+    //        success: function (data) {
+    //            $("#VendorsDD").html(data);
+    //        },
+    //        error: function (reponse) {
+    //            alert("error : " + reponse);
+    //        }
+    //    });
+    //}
+
+</script>
+
+
+

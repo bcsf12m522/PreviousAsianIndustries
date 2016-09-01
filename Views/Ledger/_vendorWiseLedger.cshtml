@@ -1,0 +1,36 @@
+﻿@model IEnumerable<DATAMODEL.VENDOR_ROUTE_ENTRY>
+
+
+
+
+    <div class="row">
+        <div class="col-lg-12 table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="6">
+                        @ViewBag.VLG.    <strong>  ایشیا پولٹری پروٹین </strong>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Date</th><th>Slip #</th><th>Weight</th><th>Rate</th><th>Amount</th><th>Payment</th><th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                        var Payment=(double)(@item.VENDOR_BRANCH.PYMENTs.Where(p=>p.TRANS_DATE==@item.ROUTE_ENTREES.ENTRY_DATE).Sum(pmt=>pmt.ADVANCE_AMOUNT)+@item.VENDOR_BRANCH.BANK_RECORDS.Where(p=>p.ISSUE_DATE==@item.ROUTE_ENTREES.ENTRY_DATE).Sum(pmt=>pmt.AMOUNT));
+                    <tr>
+                        <td>@item.ROUTE_ENTREES.ENTRY_DATE.Value.ToShortDateString()</td><td>@item.SLIP_NO</td><td>@item.V_WEIGHT</td><td>@item.RATE</td>
+                        <td>@{ var credit = @item.V_WEIGHT * @item.RATE;}@credit</td><td>@Payment</td><td>@{var balance = Payment - credit;}@balance</td>
+                    </tr>
+
+                }
+              </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+    

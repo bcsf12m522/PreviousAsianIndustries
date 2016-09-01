@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "getIssueStock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Stationary_stock = BusinessEntities.EntityBO.StationaryBO.getAllStock();
+}
+
+
+
+<h2>Add new Stock</h2>
+@using (Html.BeginForm("AddnewStock", "Stationary", FormMethod.Post))
+{
+
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-2">
+            @ViewBag.Msg<label>Select Type</label>
+        </div>
+        <div class="col-lg-3">
+            @Html.DropDownList("Stationary_ID", Stationary_stock.Select(m => new SelectListItem { Text = m.STATIONARY_NAME, Value = m.ID.ToString() }), "--Select Category--"
+        , new { @class = "form-control", @required = true, id = "Menu_DropDown", style = "" })
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-2">
+            <label>Start Serial</label>
+        </div>
+        <div class="col-md-3">
+            <input name="start_serial" class="form-control" value="" type="number" />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-2">
+            <label> End Serial</label>
+        </div>
+        <div class="col-md-3">
+            <input name="End_serial" class="form-control" type="number" />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-5 col-lg-offset-2 ">
+            <input class="pull-right btn-primary btn-sm" type="submit" value="Add new Stock" />
+        </div>
+    </div>
+}

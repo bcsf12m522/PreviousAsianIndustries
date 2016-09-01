@@ -1,0 +1,419 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/Content/css/sb-admin.css" rel="stylesheet">
+    <!-- Morris Charts CSS -->
+    <link href="~/Content/css/plugins/morris.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   
+    <link href="~/Content/css/choosen-css/choosen.css" rel="stylesheet" />
+   
+    
+    <link href="~/Content/Datatable1/dataTables.bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/Content/Datatable/StyleSheet1.css" rel="stylesheet" />
+    <link href="~/Content/Datatable/dataTables.bootstrap.css" rel="stylesheet" />*@
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Asian Industries </a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+                    @if (@AsiaIndustries.SessionManagement.SessionHelper.UserSession != null)
+                    {
+                         @AsiaIndustries.SessionManagement.SessionHelper.UserSession.EMAIL
+                    }
+                   
+                     <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        @if (AsiaIndustries.SessionManagement.SessionHelper.AdminSession != null)
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","Setting",null)"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                        </li>
+                    }
+                        else { 
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                        </li>
+                        }
+                        
+                        <li class="divider"></li>
+                        <li>
+                            <a href="@Url.Action("LogOutUser", "Accounts")"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                        <a href="@Url.Action("Index", "Home")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index", "Stationary")"><i class="fa fa-fw  fa-book"></i> Stationary</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("menu", "Routes")"><i class="fa fa-fw fa-bar-chart-o"></i> Routes</a>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("menu", "Vendors")"><i class="fa fa-fw fa fa-user"></i> Vendors</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Menu", "Bank")"><i class="fa fa-fw fa-desktop"></i> Banks</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("index", "Ledger")"><i class="fa fa-fw fa-edit"></i>Ledgers </a>
+                    </li>
+
+                   
+                    @*<li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#Vendors"><i class="fa fa-fw fa-arrows-v"></i> Vendors <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="Vendors" class="collapse">
+                            <li>
+                                @Html.ActionLink(" Vendors", "Index", "Vendors", null, new { })
+                            </li>
+                            <li>
+                                @Html.ActionLink("Add New Vendor", "AddnewVendor", "Vendors", null, new { })
+                            </li>
+                            <li>
+                                @Html.ActionLink("Disable Vendors", "DisableVendor", "Vendors", null, new { })
+                            </li>
+                        </ul>
+                    </li>*@
+                   
+                    <li>
+                        <a href="@Url.Action("index", "Vouchers")"><i class="fa fa-fw fa-edit"></i>Vouchers </a>
+                        
+                    </li>
+
+                   
+                    <li>
+                        <a href="@Url.Action("index", "Reports")"><i class="fa fa-fw fa-file"></i> Reports</a>
+                    </li>
+                    
+                    <li>
+                        <a href="@Url.Action("index", "Setting")"><i class="fa fa-fw fa-gear"></i>Setting </a>
+                    </li>
+                  
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+        <div id="page-wrapper">
+            <div class="container-fluid" style="min-height:600px;">
+                @RenderBody()
+            </div>
+        </div>
+
+                
+            </div>
+
+    @*@Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)*@
+    @if (ViewBag.Title == "VendorLedger" || ViewBag.Title == "RouteWiseLedger" || ViewBag.Title == "BalanceTransfer" || ViewBag.Title == "Vouchers" || ViewBag.Title == "Reports")
+    {
+        <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    }
+   
+    <!-- jQuery -->
+    <script src="~/scripts/js/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/scripts/js/bootstrap.min.js"></script>
+    <!-- Morris Charts JavaScript -->
+    <script src="~/scripts/js/plugins/morris/raphael.min.js"></script>
+    <script src="~/scripts/js/plugins/morris/morris.min.js"></script>
+    <script src="~/scripts/js/plugins/morris/morris-data.js"></script>
+    <script src="~/Content/Datatable1/dataTables.bootstrap.min.js"></script>
+    <script src="~/Content/Datatable1/jquery-1.11.3.min.js"></script>
+    <script src="~/Content/Datatable1/jquery.dataTables.min.js"></script>
+    <script src="~/fonts/urduText/urdutextbox.js"></script>
+    <script src="~/Scripts/choosen-select/chosen.jquery.js"></script>
+
+  
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+          
+            $("input[name='slipno']").keyup(function () {
+                var Ranges = [];
+                var values = [];
+                var AllFields = [];
+                var slipNO = $(this).val();
+                var IS_verify;
+                $("input[name='slipno']").each(function () {
+                    AllFields = $(this);
+                });
+                $("input[name='slipno']").each(function () {
+                    values.push($(this).val());
+                    AllFields = $(this);
+                });
+                $("input[name='St_Ranges']").each(function () {
+                    Ranges.push($(this).val());
+                });
+
+                var range1 = parseInt(Ranges[0]);
+                var range2 =parseInt(Ranges[1]);
+                var range3 = parseInt(Ranges[2]);
+                var range4 = parseInt(Ranges[3]);
+                var RouteID = $('#Route_ID').val();
+                var ISSueeSrID1 = $('#ISSueeSrID1').val();
+                var ISSueeSrID2 = $('#ISSueeSrID2').val();
+                var Curr_Slip_NO = parseInt($(this).val());
+
+                var Curr_ID = $(this).attr('id');
+
+                //alert(ISSueeSrID1 + "-" + ISSueeSrID2 + "-" + RouteID);
+
+               //alert(range1 + "-" + range2 + "-" + range3 + "-" + range4);
+                //||( Curr_Slip_NO >= Ranges[2] && Curr_Slip_NO <= Ranges[3])
+                if ((Curr_Slip_NO >= range1 && Curr_Slip_NO <= range2) || Curr_Slip_NO >= range3 && Curr_Slip_NO <= range4 || Curr_Slip_NO==-1) {
+                   
+                   // alert($(this).val());
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        dataType:"Json",
+                        url: '@(Url.Action("CheckSlipsValidation", "Routes"))',
+                        data: { "slipno": Curr_Slip_NO, "Curr_ID":Curr_ID, "RouteID": RouteID, "ISSueID1": ISSueeSrID1, "ISSueID2": ISSueeSrID2 },
+                        beforeSend: function () {},
+                        success: function (data) {
+                            var SlipContr = 0;
+                            var Is_Cancel = 0;
+                            if (data.status) {
+                                Is_Cancel = 1;
+                            }
+                            $("input[name='slipno']").each(function () {
+                                 SlipContr++;
+                            });
+                           
+                            var j = 0;
+                            $("input[name='slipno']").each(function () {
+                                if ($(this).val() == $("#" + data.Curr_ID).val() && $("#" + data.Curr_ID).val()!=-1)
+                                { j++; }
+                                //alert(Is_Cancel);
+                                if (j > 1 || Is_Cancel==1) {
+                                    $("#" + data.Curr_ID).css('background-color', 'red');
+                                    $("#" + data.Curr_ID).removeClass("myClass");
+                                }
+                                else {
+                                    var count = 0;
+                                    $("#" + data.Curr_ID).css('background-color', 'green');
+                                    $("#" + data.Curr_ID).addClass("myClass");
+                                    $(".myClass").each(function () {
+                                        count++;
+                                    });
+                                   
+                                    if (count == SlipContr) {
+                                        $("#add_btn").removeAttr('disabled');
+                                    } else {
+                                        $("#add_btn").attr('disabled', 'disabled');
+                                    }
+                                 }
+                            });
+                        },
+                        error: function (data) {
+                            alert("error"+data);
+                        }
+                     });
+                    //alert("in Range");
+                }
+                else {
+                        $(this).css('background-color', 'red');
+                        $(this).removeClass("myClass");
+                        //alert("not in Range");
+                     }
+              // alert(IS_verify + Slip_ID);
+            });
+        });
+
+    </script>
+    <script>
+       
+        $(document).ready(function () {
+
+           
+                $('#dataTables-1').dataTable(); 
+            //enable Urdu in html text box 
+               
+                 MakeTextBoxUrduEnabled(Address);
+                 MakeTextBoxUrduEnabled(V_Name); 
+              
+                 $("input[name='C_Type']").on('change', function () {
+                    
+                     if ($(this).val() == 1) {
+                         $('#part2 input').each(function () {
+                             $(this).removeAttr('disabled');
+                         });
+                         $('#Bank_ID').removeAttr('disabled');
+                         $('#part2').css("display", "inline");
+
+                     }
+                     else if ($(this).val() == 2) {
+                         $('#part2 input').each(function () {
+                             $(this).removeAttr('disabled');
+                         });
+                         $('#Bank_ID').removeAttr('disabled');
+                         $('#part2').css("display", "inline");
+                     }
+                     else {
+                         $('#part2 input').each(function () {
+                             $(this).attr('disabled', 'disabled');
+                         });
+                         $('#Bank_ID').attr('disabled', 'disabled');
+                         $('#part2').css("display", "none");
+                     }
+                 });
+                      
+                 $("input[name='pyment_type']").on('change', function () {
+                     // alert("hi" + $(this).val());
+                     if ($(this).val() == 1) {
+                         $('#cheque_div input').each(function () {
+                             $(this).attr('disabled', 'disabled');
+                         });
+                         $('#div-cash input').each(function () {
+                             $(this).removeAttr('disabled');
+                         });
+
+                         $('#Bank_ID').attr('disabled', 'disabled');
+
+
+                         $('#div-cash').css("display", "inline");
+                         $('#cheque_div').css("display", "none");
+
+                     }
+                     else if ($(this).val() == 2) {
+                         $('#cheque_div input').each(function () {
+                             $(this).removeAttr('disabled');
+                         });
+                         $('#div-cash input').each(function () {
+                             $(this).attr('disabled', 'disabled');
+                         });
+
+                         $('#Bank_ID').removeAttr('disabled');
+                         $('#cheque_div').css("display", "inline");
+                         $('#div-cash').css("display", "none");
+                   
+
+                     }
+                     else {
+                         $('#cheque_div input').each(function () {
+                             $(this).removeAttr('disabled');
+                         });
+                         $('#div-cash input').each(function () {
+                             $(this).removeAttr('disabled');
+                         });
+                         $('#Bank_ID').removeAttr('disabled');
+                         $('#cheque_div').css("display", "inline");
+                         $('#div-cash').css("display", "inline");
+                     }
+                 });
+
+
+                 
+
+              
+        });
+        //function checkslipValidation(start_sr, end_sr, current_sr) {
+        //   // alert(start_sr +"-"+ end_sr+"current="+ current_sr);
+        //    //alert(current_sr);
+        //    var values = [];
+        //    var fields = document.getElementsByName("slipno");
+        //    for (var i = 0; i < fields.length; i++) {
+        //        values.push(fields[i].value);
+        //    }
+        //    var current_slip = document.getElementById(current_sr).value;
+            
+        //    if (current_slip <= end_sr && current_slip >= start_sr) {   //range check
+              
+        //        for (var i = 0, j = 0; i < values.length; i++) {   //duplicate cheking loop
+        //            if (current_slip == values[i]) {
+        //                j++;
+        //                if (j > 1) {
+        //                    document.getElementById(current_sr).style.backgroundColor = "Red";
+        //                    document.getElementById("add_btn").disabled = true; 
+        //                }
+        //                else {
+        //                    count = 0;
+        //                    document.getElementById(current_sr).style.backgroundColor = "green";
+        //                    for (var k = 0; k < fields.length; k++) {
+        //                        if (""+fields[k].style.backgroundColor == "green") {
+        //                            count++;
+        //                        }
+                              
+        //                        if (count == fields.length) {
+        //                            document.getElementById("add_btn").disabled = false;
+        //                        }
+        //                        else {
+        //                            document.getElementById("add_btn").disabled = true;
+        //                        }
+        //                    }
+        //                  }
+
+        //            }
+        //        }
+
+        //    }
+        //    else {
+               
+        //        document.getElementById(current_sr).style.backgroundColor = "Red";
+        //        document.getElementById("add_btn").disabled = true;
+                
+        //    }
+           
+
+        //}
+
+        function calculateRateperKg() {
+           
+            var Rate = document.getElementById('Rate').value;
+           
+            document.getElementById("ratePerKg").innerHTML =  Rate/40;
+
+     
+        }
+
+        function myFunction() {
+            alert("hi");
+            var Rate = document.getElementById('Rate').value;
+            alert(Rate);
+            var start_date = document.getElementById('start_date').value;
+            alert(start_date);
+            var end_date = document.getElementById('end_date').value;
+            alert(end_date);
+            alert(document.getElementById('V_name').value);
+            
+            var Advance_pyment = document.getElementById('Advance_pyment').value;
+            alert(Address);
+            var Address = document.getElementById('Address').value;
+            var url = "Vendor_Preview?Address=" + Address + "&V_name=" + V_name + "&Rate=" + Rate + "&start_date=" + start_date + "&end_date=" + end_date
+            window.open(url, '_blank');
+        }
+
+    </script>
+</body>
+</html>

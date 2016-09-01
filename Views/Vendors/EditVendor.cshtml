@@ -1,0 +1,327 @@
+﻿@model DATAMODEL.VENDOR_BRANCH
+
+<h2>EditVendor</h2>
+@{
+    ViewBag.Title = "EditVendor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Routes = BusinessEntities.EntityBO.RouteBO.GetAllRoutesList();
+    var selectList = new SelectList(Routes, "ROUTE_ID", "NAME", @Model.ROUTE_ID);
+    ViewData["Routes"] = selectList;
+    var Banks = BusinessEntities.DropDownBO.DropDownBO.AllBanks();
+    if (@Model.PYMENT_TYPE != 1)
+    {
+        var selectList1 = new SelectList(Banks, "BANKNAME_ID", "BANK_NAME", @Model.BANK_RECORDS.Where(vnr => vnr.V_BRANCH_ID == @Model.VENDOR_BRANCH_ID).FirstOrDefault().BANK_NAME_ID);
+        ViewData["Banks"] = selectList1; 
+    }
+   
+   
+  
+    // string date = string.Empty;
+    //if (Model.END_DATE.Value.ToShortDateString()!= null)
+    //{
+    //    date = string.Format("{0}-{1}-{2}", Model.END_DATE.Value.Day, Model.END_DATE.value.Month, Model.END_DATE.Value.Year);
+    //}
+    
+}
+
+@if (@Model.CONTRACT_TYPE ==1||@Model.CONTRACT_TYPE==2)
+{
+    using (Html.BeginForm("EditVendor", "Vendors", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                        <div class="row" dir="rtl">
+                            <div class="col-lg-4 col-lg-offset-2">
+                                <input id="Address" name="Address" placeholder=" ایڈریس " value="@Model.ADDRESS" required="required" class="form-control" type="text" dir="rtl" style="background-color:#CCFFCC;">
+                                <input type="hidden" name="V_BRANCH_ID" value="@Model.VENDOR_BRANCH_ID" />
+                                <input id="C_Type" name="C_Type" value="@Model.CONTRACT_TYPE"  type="hidden" /> 
+                                <input id="pyment_type" name="pyment_type" value="@Model.PYMENT_TYPE" type="hidden" /> 
+                            </div>
+                            <div class="col-lg-4">
+                                <input id="V_Name" name="V_Name" placeholder=" نام  " value="@Model.VBNAME" required="required" class="form-control" type="text" dir="rtl" style="background-color:#CCFFCC;">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-2 col-lg-offset-2">
+                                CNIC #
+                            </div>
+                            <div class="col-lg-2 ">
+                                <input id="CNIC" name="CNIC" value="@Model.VENDOR.CNIC" class="form-control" type="text" style="background-color:#CCFFCC;">
+                            </div>
+                            <div class="col-lg-1 ">
+                                Image
+                            </div>
+                            <div class="col-lg-3 ">
+                                <input type="file"  id="V_Image" name="file" class="form-control" style="background-color:#CCFFCC;" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-2 col-lg-offset-2">
+                                Rate 40 Kg
+                            </div>
+                            <div class="col-lg-2 ">
+                                <input id="Rate" name="Rate" onkeyup="calculateRateperKg()" value="@Model.RATE_FEMAN" placeholder=" Rate 40 kg " class="form-control" type="text" style="background-color:#CCFFCC;">
+                            </div>
+                            <div class="col-lg-2 ">
+                                Monthly Waste
+                            </div>
+                            <div class="col-lg-2 ">
+                                <input type="text" required="required" title="Monthly_waste" value="@Model.MONTHLY_WASTE" id="Monthly_waste" name="Monthly_waste" class="form-control" style="background-color:#CCFFCC;" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-2 col-lg-offset-2">
+                                Rate per Kg
+                            </div>
+                            <div class="col-lg-2 ">
+                                <label id="ratePerKg"> </label>
+                            </div>
+                            <div class="col-lg-2 ">
+                                Phone Number
+                            </div>
+                            <div class="col-lg-2 ">
+                                <input type="text" required="required" title="phone Number" id="Phone_no" value="@Model.PHONE_NO" name="Phone_no" class="form-control" style="background-color:#CCFFCC;" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-2 col-lg-offset-2">
+                                Start Date
+                            </div>
+                            <div class="col-lg-2 ">
+                                <input type="datetime" id="end_date" name="end_date" value="@Model.END_DATE" class="form-control" required="required" style="background-color:#CCFFCC;" />
+                            </div>
+                            <div class="col-lg-2">
+                                End Date
+                            </div>
+                            <div class="col-lg-2 ">
+                                <input type="datetime" id="start_date" name="start_date" value="@Model.START_DATE" required="required" class="form-control" style="background-color:#CCFFCC;" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-2 col-lg-offset-2 ">
+                                Select Goods
+                            </div>
+                            <div class="col-lg-2">
+                                <select class="form-control" required="required" id="Goods_id" name="Goods_id" style="background-color:#CCFFCC;">
+                                    <option value="1">Chicken Waste</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-2">
+                                Select Route
+                            </div>
+                            <div class="col-lg-2">
+                                @Html.DropDownList("RouteID", (SelectList)ViewData["Routes"], new { @class = "span2 searchcss form-control searchselect", id = "Menu_DropDown", style = "background-color:#CCFFCC;" })
+                                @*@Html.DropDownList("RouteID", Routes.Select(m => new SelectListItem { Text = m.NAME, Value = m.ROUTE_ID.ToString() ,Selected=@Model.ROUTE_ID.ToString()}),
+                                    , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Menu_DropDown", style = "background-color:#CCFFCC;" })*@
+                            </div>
+                        </div>
+                        <br />
+                    if (@Model.PYMENT_TYPE == 1)
+                    {
+                        <div class="row">
+                            <div class="col-lg-2 col-lg-offset-2 ">
+                                Advance Payment
+                            </div>
+                            <div class="col-lg-2">
+                                <input id="Advance_pyment" name="Advance_pyment" value="@Model.PYMENTs.Where(pmt=>pmt.V_BRANCH_ID==@Model.VENDOR_BRANCH_ID &&pmt.IS_ACTIVE==true).FirstOrDefault().ADVANCE_AMOUNT" placeholder=" ایڈوانس رقم  " class="form-control" type="text" dir="rtl" style="background-color:#CCFFCC;">
+                            </div>
+                        </div><br />
+                    }
+                    else if (@Model.PYMENT_TYPE == 2)
+                    {
+                        if (@Model.BANK_RECORDS.Where(br => br.V_BRANCH_ID == @Model.VENDOR_BRANCH_ID && br.IS_ACTIVE == true).FirstOrDefault() != null)
+                        {
+                            var V_Bank = @Model.BANK_RECORDS.Where(br => br.V_BRANCH_ID == @Model.VENDOR_BRANCH_ID && br.IS_ACTIVE == true).FirstOrDefault();
+                                <div class="row">
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        Cheque No
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <input type="text" id="cheque_no" value="@V_Bank.CHEQUE_NO" name="cheque_no" placeholder=" cheque No  " class="form-control" style="background-color:#CCFFCC;" />
+                                    </div>
+                                    <div class="col-lg-2">
+                                        Cheque Amount
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <input id="cheque_Amnt" name="cheque_Amnt" value="@V_Bank.AMOUNT" placeholder=" Cheque Amount  " class="form-control" type="text" dir="rtl" style="background-color:#CCFFCC;">
+                                    </div>
+                                </div><br />
+                                <div class="row">
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        Bank Name
+                                    </div>
+                                    <div class="col-lg-2">
+                                        @Html.DropDownList("Bank_ID", (SelectList)ViewData["Banks"], new { @class = "span2 searchcss form-control searchselect", id = "BANKNAME_ID", style = "background-color:#CCFFCC;" })
+                                        @* @Html.DropDownList("Bank_ID", Banks.Select(m => new SelectListItem { Text = m.BANK_NAME, Value = m.BANKNAME_ID.ToString() }), "--Select Bank--"
+                                            , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Bank_ID", style = "background-color:#CCFFCC;" })*@
+                                    </div>
+                                    <div class="col-lg-2">
+                                        Cash Date
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <input id="cash_date" name="cash_date" value="@V_Bank.CASH_DATE" class="form-control" type="datetime" style="background-color:#CCFFCC;">
+                                    </div>
+                                </div>
+                         }
+                    }
+    else
+        {
+            if (@Model.BANK_RECORDS.Where(br => br.V_BRANCH_ID == @Model.VENDOR_BRANCH_ID && br.IS_ACTIVE == true).FirstOrDefault() != null)
+                    {
+                        var V_Bank = @Model.BANK_RECORDS.Where(br => br.V_BRANCH_ID == @Model.VENDOR_BRANCH_ID && br.IS_ACTIVE == true).FirstOrDefault();
+                             <div class="row">
+                                 <div class="col-lg-2 col-lg-offset-2">
+                                     Advance Payment
+                                 </div>
+                                   <div class="col-lg-2">
+                                       <input id="Advance_pyment" name="Advance_pyment" value="@Model.PYMENTs.Where(pmt => pmt.V_BRANCH_ID == @Model.VENDOR_BRANCH_ID && pmt.IS_ACTIVE == true).FirstOrDefault().ADVANCE_AMOUNT" placeholder=" ایڈوانس رقم  " class="form-control" type="text" dir="rtl" style="background-color:#CCFFCC;">
+                                   </div>
+                               </div><br />
+     
+
+                            <div class="row">
+                                <div class="col-lg-2 col-lg-offset-2">
+                                    Cheque No
+                                </div>
+                                <div class="col-lg-2">
+                                    <input type="text" id="cheque_no" value="@V_Bank.CHEQUE_NO" name="cheque_no" placeholder=" cheque No  " class="form-control" style="background-color:#CCFFCC;" />
+                                </div>
+                                <div class="col-lg-2">
+                                    Cheque Amount
+                                </div>
+                                <div class="col-lg-2">
+                                    <input id="cheque_Amnt" name="cheque_Amnt" value="@V_Bank.AMOUNT" placeholder=" Cheque Amount  " class="form-control" type="text" dir="rtl" style="background-color:#CCFFCC;">
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-lg-2 col-lg-offset-2">
+                                    Bank Name
+                                </div>
+                                <div class="col-lg-2">
+                                    @Html.DropDownList("Bank_ID", (SelectList)ViewData["Banks"], new { @class = "span2 searchcss form-control searchselect", id = "BANKNAME_ID", style = "background-color:#CCFFCC;" })
+                                    @* @Html.DropDownList("Bank_ID", Banks.Select(m => new SelectListItem { Text = m.BANK_NAME, Value = m.BANKNAME_ID.ToString() }), "--Select Bank--"
+                                        , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Bank_ID", style = "background-color:#CCFFCC;" })*@
+                                </div>
+                                <div class="col-lg-2">
+                                    Cash Date
+                                </div>
+                                <div class="col-lg-2">
+                                    <input id="cash_date" name="cash_date" value="@V_Bank.CASH_DATE" class="form-control" type="datetime" style="background-color:#CCFFCC;">
+                                </div>
+
+                            </div>
+                    }
+    }
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-2">
+            <input type="submit" value="save " class="btn btn-primary btn-sm" />
+
+        </div>
+    </div>
+}}
+else
+{
+    using (Html.BeginForm("EditVendor", "Vendors", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="row" dir="rtl">
+                        <div class="col-lg-4 col-lg-offset-2">
+                            <input id="Address" name="Address" placeholder=" ایڈریس " value="@Model.ADDRESS" required="required" class="form-control" type="text" dir="rtl" style="background-color:#CCFFCC;">
+                            <input type="hidden" name="V_BRANCH_ID" value="@Model.VENDOR_BRANCH_ID" />
+                            <input id="C_Type" name="C_Type" value="@Model.CONTRACT_TYPE"  type="hidden" /> 
+                            <input id="pyment_type" name="pyment_type" value="@Model.PYMENT_TYPE" type="hidden" /> 
+                        </div>
+
+                        <div class="col-lg-4">
+                            <input id="V_Name" name="V_Name" placeholder=" نام  " value="@Model.VBNAME" required="required" class="form-control" type="text" dir="rtl" style="background-color:#CCFFCC;">
+                        </div>
+
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-2 col-lg-offset-2">
+                            CNIC #
+                        </div>
+                        <div class="col-lg-2 ">
+                            <input id="CNIC" name="CNIC" placeholder=" CNIC " class="form-control" type="text" style="background-color:#CCFFCC;">
+                        </div>
+                        <div class="col-lg-1 ">
+                            Image
+                        </div>
+                        <div class="col-lg-3 ">
+                            <input type="file"  id="V_Image" name="file" class="form-control" style="background-color:#CCFFCC;" />
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-lg-2 col-lg-offset-2">
+                            Rate 40 Kg
+                        </div>
+                        <div class="col-lg-2 ">
+                            <input id="Rate" name="Rate" onkeyup="calculateRateperKg()" value="@Model.RATE_FEMAN" placeholder=" Rate 40 kg " class="form-control" type="text" style="background-color:#CCFFCC;">
+                        </div>
+                        <div class="col-lg-2 ">
+                            Monthly Waste
+                        </div>
+                        <div class="col-lg-2 ">
+                            <input type="text" required="required" title="Monthly_waste" value="@Model.MONTHLY_WASTE" id="Monthly_waste" name="Monthly_waste" class="form-control" style="background-color:#CCFFCC;" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-2 col-lg-offset-2">
+                            Rate per Kg
+                        </div>
+                        <div class="col-lg-2 ">
+                            <label id="ratePerKg"> </label>
+                        </div>
+                        <div class="col-lg-2 ">
+                            Phone Number
+                        </div>
+                        <div class="col-lg-2 ">
+                            <input type="text" required="required" title="phone Number" id="Phone_no" value="@Model.PHONE_NO" name="Phone_no" class="form-control" style="background-color:#CCFFCC;" />
+                        </div>
+                    </div><br />
+    
+                    <div class="row">
+                        <div class="col-lg-2 col-lg-offset-2 ">
+                            Select Goods
+                        </div>
+                        <div class="col-lg-2">
+                            <select class="form-control" required="required" id="Goods_id" name="Goods_id" style="background-color:#CCFFCC;">
+                                <option value="1">Chicken Waste</option>
+                                
+                            </select>
+                        </div>
+
+                        <div class="col-lg-2">
+                            Select Route
+                        </div>
+                        <div class="col-lg-2">
+                            @Html.DropDownList("RouteID", (SelectList)ViewData["Routes"], new { @class = "span2 searchcss form-control searchselect", id = "Menu_DropDown", style = "background-color:#CCFFCC;" })
+                            @*@Html.DropDownList("RouteID", Routes.Select(m => new SelectListItem { Text = m.NAME, Value = m.ROUTE_ID.ToString() ,Selected=@Model.ROUTE_ID.ToString()}),
+                                , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Menu_DropDown", style = "background-color:#CCFFCC;" })*@
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-10 col-lg-offset-2">
+                            <input type="submit" value="save " class="btn btn-primary btn-sm" />
+
+                        </div>
+                    </div>
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+

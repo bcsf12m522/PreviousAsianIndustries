@@ -1,0 +1,71 @@
+﻿@model IEnumerable<DATAMODEL.BANK_TO_BANK_TRANSCT>
+@{
+    Decimal Op_blnc = (decimal)Model.Where(itm => itm.TRANSCT_TYPE == "OB" && itm.BANKID_TO == ViewBag.bankid).Sum(am => am.AMOUNT);
+}
+<div class="row">
+    <div class="col-lg-12 table-responsive">
+        <table id="dataTables-1" class="table table-bordered table-hover table-striped">
+            @{int rowNo = 0;}
+            <thead>
+                @*<tr><th>Route Name :</th><th>@Model.FirstOrDefault().ROUTE.NAME</th><th colspan="2"> @sdate.ToShortDateString() To @edate.ToShortDateString()</th></tr>*@
+                <tr>
+                    <th>Sr No.</th>
+                    <th>Date</th>
+                    <th>Particuler</th>
+                    <th>Debit </th>
+                    <th>Credit </th>
+                    <th>Balance </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var bnk in Model)
+                {
+                    var Bnk = bnk.BANKS_NAME.BANK_NAME;
+
+                   
+                        <tr>
+                            <td>@{rowNo++;}@rowNo</td>
+                            <td>@bnk.TRANSACT_DATE</td>
+                            <td>@bnk.TRANSACT_TEXT</td>
+                            @if (bnk.BANKID_TO == ViewBag.bankid)
+                            {
+                                <td>
+                                    @{ Decimal amt=(decimal)bnk.AMOUNT;
+                                       Op_blnc+=amt;
+                                   string bl = amt.ToString("N", System.Globalization.CultureInfo.InvariantCulture);}  @bl
+                            </td>
+                            
+                                <td> ---- </td>
+
+                            }
+                            else if (bnk.BANKID_FROM == ViewBag.bankid)
+                            {
+
+                                <td> ---- </td>
+                                <td>
+                                    @{ Decimal amt = (decimal)bnk.AMOUNT;
+                                       Op_blnc-=amt;
+                                     string bl = amt.ToString("N", System.Globalization.CultureInfo.InvariantCulture);}  @bl
+                                </td>
+                            }
+                            <td>
+                                @{
+                                string Op_bl = Op_blnc.ToString("N", System.Globalization.CultureInfo.InvariantCulture);}  @Op_bl
+                            </td>
+                            <td>
+                             @Html.ActionLink("Delete", "Delete_transaction", "Bank", new {id= @bnk.BANK_TRANSCT_ID }, new {@class="btn-danger btn" })
+                            </td>
+  
+                                                     
+                        </tr>
+                  
+                    
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+</div>

@@ -1,0 +1,54 @@
+﻿
+@model IEnumerable<DATAMODEL.ROUTE_ENTREES>
+
+@{
+    ViewBag.Title = "IndexOfOKEntries";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Route Entries</h2>
+<div class="row">
+
+    <div class="col-lg-12 table-responsive">
+
+        <table id="dataTables-1" class="table table-bordered table-hover table-striped">
+            @{int rowNo = 0;}
+            <thead>
+                <tr>
+                    <th>
+                        Sr No.
+                    </th>
+                    <th>Route Name</th>
+                    <th>Total Weight</th>
+                    <th>Machine Weight </th>
+                    <th>Diffrence </th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@{rowNo++;}@rowNo</td>
+                        <td>@item.ROUTE.NAME </td>
+                        <td>@item.TOTAL_W</td>
+                        <td>@item.Machine_W</td>
+                        <td>@{var wt = item.Machine_W-item.TOTAL_W; }@wt</td>
+                        <td>@item.ENTRY_DATE</td>
+                        <td>
+                            @*<a href="javascript:;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#EditDiv-@item.ID" onclick="loadXMLDoc(@item.ROUTE_ID)"> Edit</a>
+                                @Html.ActionLink("Delete", "Delete", new { pID = item.ID }, new { @class = "btn btn-danger btn-sm" })*@
+                            @Html.ActionLink("Route Entries", "DetailVerifiedRouteEntry", new { RouteEntryID = item.ID }, new { @class = "btn btn-success btn-sm" })
+                        </td>
+                    </tr>
+
+                   
+
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+</div>

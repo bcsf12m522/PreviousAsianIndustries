@@ -1,0 +1,23 @@
+﻿@model DATAMODEL.CUSTOM_MODEL.VLedgerCM
+
+
+<div class="row">
+    <div class="col-lg-12 table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="4"> <h1 style="text-align:center"><strong>  ایشیا پولٹری پروٹین </strong></h1>
+                        <h5 style="text-align:center"><strong> سکنہ 2 کلو میٹر ڈیفنس روڈ لاہور </strong></h5></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr dir="rtl"><td>@Model.Advance_Amount</td> <th> سابقہ رقم</th><td>@Model.V_NAME @Model.ADDRESS</td> <th> نام دوکاندار بمعہ پتہ</th></tr>
+                    <tr ><td>@Model.Select_Date_Advance_Amount</td> <th> موجودہ ماہ رقم</th><td> @ViewBag.S_date -@ViewBag.E_date</td> <th>ماہ</th></tr>
+                    <tr dir="rtl"><td>@Model.Total_Amount</td> <th dir="rtl"> رقم مال</th><td>@Model.Total_Weight</td> <th dir="rtl">وزن کلوگرام</th></tr>
+                    <tr dir="rtl"><td>@Model.Remaining_Amount</td> <th> بقایا رقم</th><td>@Model.Total_Amount</td> <th>رقم مال</th></tr>
+                    <tr dir="rtl"><td></td> <th> دستخط</th></tr>
+                </tbody>
+        </table>
+    </div>
+
+</div>

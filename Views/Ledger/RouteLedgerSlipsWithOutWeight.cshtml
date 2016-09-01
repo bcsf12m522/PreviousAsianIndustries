@@ -1,0 +1,30 @@
+﻿@model IEnumerable<DATAMODEL.CUSTOM_MODEL.VLedgerCM>
+
+@{int counter = 0;}
+@foreach(var item in @Model)
+{  
+if (counter % 3 == 0 &&counter!=0) { <br /><br /><br />}
+    <div class="row">
+    <div class="col-lg-12 table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th colspan="6">
+                        <h4 class="headinglist" style="text-align:center"><strong>  ایشیا پولٹری پروٹین </strong></h4>
+                    </th> 
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>0346-4884848</td> <th>شکایت نمبر </th><td>@item.RouteName</td><th>روٹ نمبر</th><td>@item.V_BRANCH_ID</td><th>کھاتہ نمبر</th></tr>
+                <tr dir="rtl"><td>@item.Advance_Amount</td> <th> سابقہ رقم</th><td colspan="2">@item.V_NAME @item.ADDRESS</td> <th colspan="2"> نام دوکاندار بمعہ پتہ</th></tr>
+                <tr dir="rtl"><td>@item.Select_Date_Advance_Amount</td> <th> موجودہ ماہ ایڈوانس رقم</th><td colspan="2">@ViewBag.MonthName @ViewBag.year</td> <th colspan="2">ماہ</th></tr>
+                <tr dir="rtl"><td>@item.Total_Amount</td> <th dir="rtl"> رقم مال</th> <td colspan="3" rowspan="2"></td> <th rowspan="2"> دستخط</th> </tr>
+                <tr dir="rtl"><td>@item.Remaining_Amount</td> <th> بقایا رقم</th></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div><br />
+{ counter++; }
+
+}

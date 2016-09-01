@@ -1,0 +1,118 @@
+﻿
+@model IEnumerable<DATAMODEL.BANK_RECORDS>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Routes = BusinessEntities.EntityBO.RouteBO.GetAllRoutesList();
+}
+<div class="row">
+    <div class="col-lg-3">
+        <h2>Bank </h2>
+    </div>
+    <div class="col-lg-2 pull-right">
+        <label><a href="@Url.Action("BalanceTransfer", "Bank")" class="btn-primary btn"> Balance Transfer</a> </label>
+    </div>
+    <div class="col-lg-3 pull-right">
+        <label><a href="@Url.Action("BankToBankTransact", "Bank")" class="btn-primary btn">Bank To Bank Transact</a> </label>
+    </div>
+</div>
+
+<br />
+<a href="@Url.Action("","")"></a>
+<div class="row">
+   
+    <div class="col-lg-12 table-responsive">
+
+        <table id="dataTables-1" class="table table-bordered table-hover table-striped">
+            @{int rowNo = 0;}
+            <thead>
+                <tr>
+                    <th>
+                        Sr No.
+                    </th>
+                    <th>Actions</th>
+                    <th> Name</th>
+                    <th>Address</th>
+                    <th>Cash Date</th>
+                    <th>Amount </th>
+                    <th>Cheque #</th>
+                    <th>Bank Name</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.CASH_DATE < DateTime.Now.AddDays(2))
+                    {
+                        <tr style="background-color:#BEC1BE">
+                            <td>@{rowNo++;}@rowNo</td>
+                            <td>
+                                <a href="javascript:;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal1-@item.BANK_ID" onclick="loadXMLDoc(@item.BANK_ID)"> Actions</a>
+
+                                @*@Html.ActionLink("Delete", "Delete", new { pID = item.VENDOR_ID }, new { @class = "btn btn-danger btn-sm" })*@
+                            </td>
+                            <td>@item.VENDOR_BRANCH.VBNAME </td>
+                            <td>@item.VENDOR_BRANCH.ADDRESS</td>
+                            <td>@item.CASH_DATE</td>
+                            <td>@item.AMOUNT</td>
+                            <td>@item.CHEQUE_NO</td>
+                            <td>@item.BANKS_NAME.BANK_NAME</td>
+
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@{rowNo++;}@rowNo</td>
+                            <td>
+                                <a href="javascript:;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal1-@item.BANK_ID" onclick="loadXMLDoc(@item.BANK_ID)">Actions</a>
+
+                                @*@Html.ActionLink("Delete", "Delete", new { pID = item.VENDOR_ID }, new { @class = "btn btn-danger btn-sm" })*@
+                            </td>
+                            <td>@item.VENDOR_BRANCH.VBNAME </td>
+                            <td>@item.VENDOR_BRANCH.ADDRESS</td>
+                            <td>@item.CASH_DATE</td>
+                            <td>@item.AMOUNT</td>
+                            <td>@item.CHEQUE_NO</td>
+                            <td>@item.BANKS_NAME.BANK_NAME</td>
+                        </tr>
+                    }
+
+                    <div class="modal fade " id="myModal1-@item.BANK_ID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content" style="padding:45px">
+                                <fieldset>
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Actions  ---
+                                                       @item.VENDOR_BRANCH.VBNAME
+                                                       @item.VENDOR_BRANCH.ADDRESS</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                
+                                                <div class="col-md-4 "><label><a href="@Url.Action("CancleCheque", "Bank", new { ChequeID= @item.BANK_ID })" class="btn-primary btn ">Cancel Cheque</a> </label></div>
+                                                <div class="col-md-4 "><label><a href="@Url.Action("BalanceTransfer", "Bank")" class="btn-primary btn"> Balance Transfer</a> </label></div>
+                                                <div class="col-md-4"><label><a href="@Url.Action("ReplaceCheque", "Bank", new { ChequeID = @item.BANK_ID })" class="btn-primary btn">Replace Cheque</a> </label></div>
+                                                
+                                             </div>
+                                            <br />
+                                            
+                                        </div>
+                                    </fieldset>
+                            </div>
+                            <!--Model content-->
+                        </div>
+                    </div>
+
+
+
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+</div>

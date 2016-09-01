@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bank </h2><hr />
+
+<div class="row">
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-users fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"></div>
+                        <div>Bank Reports</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("index", "Bank", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Bank Reports</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-edit fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"></div>
+                        <div>Bank Ledgers</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("BankToBankTransactReport", "Reports", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left">Bank To Bank Transactions</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-credit-card fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"></div>
+                        <div>Add new Banks</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("BanksSetting", "setting", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left"> All Banks</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class=" fa fa-credit-card fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"></div>
+                        <div> Banks Transaction</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("BankToBankTransact", "bank", null)" target="_blank">
+                <div class="panel-footer">
+                    <span class="pull-left"> New Banks Transaction</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+</div>
+
+
+

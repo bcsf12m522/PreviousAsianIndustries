@@ -1,0 +1,104 @@
+﻿@model IEnumerable<DATAMODEL.HEAD_NAME>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Cash Head </h2>
+<div class="row ">
+    <div class="col-lg-8">
+        <br />
+
+        @using (Html.BeginForm("AddNewHead", "Setting",FormMethod.Post))
+        {     <div class="col-lg-7">
+                @Html.TextBox("HeadName", null, new { required = "required",Title="Head Name", @class = "form-control", @placeholder = "Head Name" })
+              </div>
+               <div class="col-lg-3">
+                <input type="submit" class="btn-success btn-sm" value="Add New">
+              </div>
+        }
+
+    </div>
+    <div class="col-md-4">
+        @ViewBag.Msg 
+    </div>
+</div>
+
+
+<div class="row ">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                @{int rowNo = 0;}
+                <thead>
+                    <tr>
+                        <th>Sr-No</th>
+                        <th>Head Name</th>
+                        <th>Total Amount</th>
+                        <th>Total Used</th>
+                        <th>Remaing Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @{rowNo++;}@rowNo
+                            </td>
+                            <td>
+                                @item.NAME
+                            </td>
+                            <td> 
+                              @{var total_cash = (double)item.CASH_HEAD.Sum(x => x.TotalCashAmount);} @total_cash
+                            </td>
+                            <td>@{var total_Used = (double)item.PYMENTs.Sum(x => x.ADVANCE_AMOUNT);} @total_Used</td>
+                            <td>@{var Balance = total_cash - total_Used;} @Balance</td>
+                           
+                            <td>
+                                <a href="javascript:;" class=" btn-sm btn-primary" data-toggle="modal" data-target="#myModal1-@item.HEAD_NAME_ID" onclick="loadXMLDoc(@item.HEAD_NAME_ID)"> Add Amount</a>
+                               
+                            </td>
+                        </tr>
+    <div class="modal fade " id="myModal1-@item.HEAD_NAME_ID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="padding:45px">
+                @using (Html.BeginForm("AddNewPymentByHeadID", "HeadCash", FormMethod.Post))
+                {
+                    <fieldset>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"> <label>Head Name: @item.NAME</label></h4>
+                        </div>
+                        <div class="modal-body">
+                           
+                            <div class="row">
+                                <div class="col-lg-4"><label> Amount</label></div>
+                                <div class="col-lg-5"><input type="number" class="form-control" name="amount" required="required" /></div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-lg-4"><label>Entry Date </label></div>
+                                <div class="col-lg-5"> <input type="date" name="entry_Date" class="form-control" required="required" /> </div>
+                            </div>
+                            <br />
+                            
+                        <input type="hidden" value="@item.HEAD_NAME_ID" name="Head_Name_ID" />
+                    </div>
+                    <div class="modal-footer" style="background:none;">
+                        <button type="submit" class="btn ownbtn">Add Amount</button>
+                    </div>
+                </fieldset>
+                }
+
+            </div>
+            <!--Model content-->
+        </div>
+    </div>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,176 @@
+﻿@model DATAMODEL.VENDOR_BRANCH
+
+@{   var Banks = BusinessEntities.DropDownBO.DropDownBO.AllBanks();
+    var CashVendorBranches = BusinessEntities.DropDownBO.DropDownBO.AllVendor_Branches().ToList();
+}
+
+
+@if (@Model.PYMENT_TYPE == 1)
+{
+    using (Html.BeginForm("BalanceTransfer", "Bank", FormMethod.Post))
+               {
+    <div class="row">
+        <div class="col-lg-12 table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              
+                    <thead>
+                        <tr>
+                            <th>
+                                From:
+                            </th>
+                            <td>
+                                @Model.VBNAME @Model.ADDRESS
+                                <input name="FromVBID" value="@Model.VENDOR_BRANCH_ID" type="hidden" />
+                            </td>
+                            <th>
+                                To:
+                            </th>
+                            <td>
+                                @Html.DropDownList("TOVBID", CashVendorBranches.Select(m => new SelectListItem { Text = m.VBNAME + " " + m.ADDRESS, Value = m.VENDOR_BRANCH_ID.ToString() }), "--Select Vendor--"
+                                          , new { @class = "span2 form-control", @required = true, id = "TOVB_ID", style = "background-color:#CCFFCC;" })
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> Amount:</td>
+                            <td>
+                                @ViewBag.RAmont
+                                <input type="hidden" class="form-control" style="background-color:#CCFFCC;" name="Amount" value="@ViewBag.RAmont" />
+                        </td>
+
+                        <td> Confirm transfer:</td>
+                        <td><input type="submit" value="Transfer" class="btn btn-success" /></td>
+                    </tr>
+                </tbody>
+              
+            </table>
+        </div>
+    </div>
+               }
+}
+else if (@Model.PYMENT_TYPE == 2)
+{
+    using (Html.BeginForm("BalanceTransfer", "Bank", FormMethod.Post))
+            {
+    <div class="row">
+        <div class="col-lg-12 table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+           
+                    <thead>
+                        <tr>
+                            <th>
+                                From:
+                            </th>
+                            <td>
+                                @Model.VBNAME @Model.ADDRESS
+                                <input name="FromVBID" value="@Model.VENDOR_BRANCH_ID" type="hidden" />
+                            </td>
+                            <th>
+                                To:
+                            </th>
+                            <td>
+                                @Html.DropDownList("TOVBID", CashVendorBranches.Select(m => new SelectListItem { Text = m.VBNAME + " " + m.ADDRESS, Value = m.VENDOR_BRANCH_ID.ToString() }), "--Select Vendor--"
+                                                  , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Bank_ID", style = "background-color:#CCFFCC;" })
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> Amount:</td>
+                            <td>
+                                @ViewBag.RAmont
+                                <input type="hidden" name="Amount" value="@ViewBag.RAmont" />
+                            </td>
+
+                            <td> Cheque No:</td>
+                            <td><input type="text" name="ChequeNo" class="form-control" style="background-color:#CCFFCC;" required="required" /></td>
+                        </tr>
+                        <tr>
+                            <td> Bank Name:</td>
+                            <td>
+                                @Html.DropDownList("BankID", Banks.Select(m => new SelectListItem { Text = m.BANK_NAME, Value = m.BANKNAME_ID.ToString() }), "--Select Bank--"
+                                                  , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Bank_ID", style = "background-color:#CCFFCC;" })
+
+
+                              </td>
+                            <td>Cash Date</td>
+                            <td><input type="date" name="cash_date" required="required" class="form-control" style="background-color:#CCFFCC;" /></td>
+                            </tr>
+                        <tr>
+                            <td> Confirm transfer:</td>
+                            <td><input type="submit" value="Transfer" class="btn btn-success" /></td>
+                        </tr>
+                </tbody>
+               
+            </table>
+        </div>
+    </div>
+} }
+else
+{
+    using (Html.BeginForm("BalanceTransfer","Bank",FormMethod.Post))
+                {
+
+    <div class="row">
+        <div class="col-lg-12 table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                        <tr>
+                            <th>
+                                From:
+                            </th>
+                            <td>
+                                @Model.VBNAME @Model.ADDRESS
+                                <input name="FromVBID" value="@Model.VENDOR_BRANCH_ID" type="hidden" />
+                            </td>
+                            <th>
+                                To:
+                            </th>
+                            <td>
+                                @Html.DropDownList("TOVBID", CashVendorBranches.Select(m => new SelectListItem { Text = m.VBNAME + " " + m.ADDRESS, Value = m.VENDOR_BRANCH_ID.ToString() }), "--Select Vendor--"
+                                                  , new { @class = "span2  form-control ", @required = true, id = "Bank_ID", style = "background-color:#CCFFCC;" })
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Total Balance:</td>
+                            <td>
+                                @ViewBag.RAmont
+                                <input type="hidden" name="Amount" value="@ViewBag.RAmont" />
+                            </td>
+
+                            <td> Cash</td>
+                            <td><input type="text" name="cashAmount" required="required" class="form-control" style="background-color:#CCFFCC;" /></td>
+                        </tr>
+                        <tr>
+                            <td>Check Amount:</td>
+                            <td>
+                                <input type="number" name="ChequeAmount" required="required" class="form-control" style="background-color:#CCFFCC;" />
+                            </td>
+
+                            <td> Cheque No:</td>
+                            <td><input type="text" name="ChequeNo" required="required" class="form-control" style="background-color:#CCFFCC;" /></td>
+                        </tr>
+                        <tr>
+                            <td> Bank Name:</td>
+                            <td>
+                                @Html.DropDownList("BankID", Banks.Select(m => new SelectListItem { Text = m.BANK_NAME, Value = m.BANKNAME_ID.ToString() }), "--Select Bank--"
+                                                  , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Bank_ID", style = "background-color:#CCFFCC;" })
+
+                            </td>
+                            <td>Cash Date</td>
+                            <td><input type="date" name="cash_date" required="required" class="form-control" style="background-color:#CCFFCC;" /></td>
+                        </tr>
+                        <tr>
+                            <td> Confirm transfer:</td>
+                            <td><input type="submit" value="Transfer" class="btn btn-success" /></td>
+                        </tr>
+                    </tbody>
+                
+            </table>
+        </div>
+    </div>
+}
+}

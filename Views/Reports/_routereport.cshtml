@@ -1,0 +1,54 @@
+﻿@model IEnumerable<DATAMODEL.ROUTE_ENTREES>
+
+
+<div class="row">
+    <div class="col-lg-12 table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            @{int rowNo = 0;}
+            <thead>
+                <tr style="background-color:lightgray">
+                    <th colspan="4">Route :(@ViewBag.rt)</th>
+                    <th colspan="4">  @ViewBag.S_date - to - @ViewBag.E_date</th>
+                </tr>
+                <tr>
+                    <th>Sr No</th>
+                    <th>Machine We..</th>
+                    <th>Total wei..</th>
+                    <th>Diff..</th>
+                    <th>Driver</th>
+                    <th>Vehicle#</th>
+                    <th>Date</th>
+                    <th>detail</th>
+                 </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@{rowNo++;}@rowNo</td>
+                        <td>@item.Machine_W </td>
+                        <td>@item.TOTAL_W</td>
+                        <td>@{var diff = item.TOTAL_W -item.Machine_W ;}@diff</td>
+                        <td>@item.DRIVER.DR_NAME</td>
+                        <td>@item.VEHICLE.VEHICLE_NO</td>
+                        <td>@item.ENTRY_DATE.Value.ToShortDateString()</td>
+                        <td>@Html.ActionLink("Detail", "DetailVerifiedRouteEntry", "EditList", new { RouteEntryID = @item.ID }, new { @class="btn-sm btn-success"})</td>
+                    </tr>
+                }@if (rowNo == 0) { 
+                 <tr><th colspan="7">No Record Found </th></tr>
+                 }
+                 else { 
+                <tr><td></td><td>Total Weight</td><td>@Model.Sum(m => m.TOTAL_W) Kg</td><td colspan="3">Total Amount(individual  Rate)</td> <td colspan="2"> @Model.Sum(m => m.VENDOR_ROUTE_ENTRY.Sum(w=>w.V_WEIGHT*w.RATE)) </td></tr>
+                <tr><td></td><td>Total Weight</td><td>@Model.Sum(m => m.TOTAL_W) Kg</td><td colspan="3">Total Amount(Common Rate)</td> <td colspan="2">Rs: @{var T_Comn_Rate_Amount = Model.Sum(m => m.VENDOR_ROUTE_ENTRY.Sum(w => w.V_WEIGHT)) * @ViewBag.new_Rate;
+                                                                                                                                                             
+                                                                                                                                                             }@T_Comn_Rate_Amount </td></tr>
+                 }
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+   a[href]:after {
+    content: none !important;
+  }
+</style>

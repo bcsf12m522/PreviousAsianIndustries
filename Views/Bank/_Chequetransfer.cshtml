@@ -1,0 +1,48 @@
+﻿@model DATAMODEL.BANK_RECORDS
+
+
+@{
+    var CashVendorBranches = BusinessEntities.DropDownBO.DropDownBO.AllVendor_Branches().Where(m => m.PYMENT_TYPE == 2 || m.PYMENT_TYPE == 3).ToList();
+}
+<div class="row">
+    <div class="col-lg-12 table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            @using (Html.BeginForm("ChequeTransfer"))
+            {
+                <thead>
+                    <tr>
+                        <th >
+                            From:
+                        </th>
+                        <td>
+                            @Model.VENDOR_BRANCH.VBNAME @Model.VENDOR_BRANCH.ADDRESS
+                            <input name="TOCashVendorB_ID" value="@Model.V_BRANCH_ID" type="hidden" />
+                        </td>
+                        <th>
+                            To:
+                        </th>
+                        <td>
+                            @Html.DropDownList("TOVB_ID", CashVendorBranches.Select(m => new SelectListItem { Text = m.VBNAME + " " + m.ADDRESS, Value = m.VENDOR_BRANCH_ID.ToString() }), "--Select Vendor--"
+                                           , new { @class = "span2  form-control ", @required = true, id = "TOVB_ID", style = "background-color:#CCFFCC;" })
+                        </td>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <th> Amount:</th>
+                        <td>@Model.AMOUNT</td>
+                   
+                        <th> Confirm transfer:</th>
+                        <td><input type="submit" value="Transfer" class="btn btn-success" /></td>
+                    </tr>
+
+                </tbody>
+            }
+
+
+        </table>
+    </div>
+
+</div>
