@@ -37,7 +37,9 @@
                     <th style="text-align:right">
                         Sr No.
                     </th>
-
+                    <th>
+                        Status
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -49,6 +51,7 @@
 
               foreach (var item in Model)
               {
+               
                     <tr style="text-align:right">
                         <td>
                             <input type="text" required="required" name="V_Weight" id="id-@item.VENDOR_ID" />
@@ -75,6 +78,14 @@
                             @{rowNo++;}@rowNo
                             <input type="hidden" name="V_BranchID"value="@item.V_BRANCH_ID">
                         </td>
+                        @if(item.is_active ==true)
+                        { 
+                        <td>Active</td>
+                        }
+                        else
+                        {
+                            <td>DeActive</td>
+                        }
                     </tr>
                   }
 
