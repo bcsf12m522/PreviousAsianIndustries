@@ -1,0 +1,80 @@
+﻿@model IEnumerable<DATAMODEL.VENDOR_BRANCH>
+
+@{
+    ViewBag.Title = "DeactiveVendors";
+}
+<head>
+    
+    <title></title>
+    <style>
+
+        th{
+            padding-right:30px;
+        }
+        td{
+        
+        }
+    </style>
+
+</head>
+<h2>Deactive Vendors</h2>
+
+<br />
+
+
+<form action="@Url.Action("DeactiveVendors","Vendors")" method="post">
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VENDOR_BRANCH_ID)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ROUTE_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VENDOR_ID)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.VBNAME)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VENDOR_BRANCH_ID)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ROUTE_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VENDOR_ID)
+                </td>
+
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.VBNAME)
+                </td>
+
+                <td>
+                    @if (item.VENDOR.IMAGE == null)
+                    {
+                        <input type="checkbox" value="@item.VENDOR_ID" name="@item.VBNAME@item.VENDOR_ID" />
+                    }
+                    else
+                    {
+                     <input type="checkbox" value="@item.VENDOR_ID" name="@item.VBNAME@item.VENDOR_ID"  checked/>
+                    }
+                </td>
+            </tr>
+}
+
+    </table>
+    <input type="submit"value="Deactive" />
+</form>

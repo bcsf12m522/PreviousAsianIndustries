@@ -23,8 +23,9 @@
                             <td>@Html.DropDownList("Head_id", allCashHeads.Select(m => new SelectListItem { Text = m.NAME, Value = m.HEAD_NAME_ID.ToString() }), "--Select Head Name--"
                               , new { @class = "span2 searchcss form-control searchselect", @required = true, id = "Head_id" })
 
-                                <input type="date" name="pymentDate" required="required" class="form-control" style="background-color:#CCFFCC;"></td></tr>
-                            <tr><td> Pyment Date</td><td><input type="date" name="pymentDate" required="required" class="form-control" style="background-color:#CCFFCC;"></td></tr>
+                                @*<input type="date" name="pymentDate" required="required" class="form-control" style="background-color:#CCFFCC;"></td></tr>*@
+                            <tr><td> Payment Date</td><td><input type="date" name="pymentDate" required="required" class="form-control" style="background-color:#CCFFCC;"></td></tr>
+                        <tr><td>Weight(KG)</td><td><input type="number" name="weight" required="required" class="form-control" style="background-color:#CCFFCC;"></td></tr>
                             <tr>
                                 <td colspan="2">
                                     <input type="hidden" value="@Model.VENDOR_BRANCH_ID" name="VENDOR_BRANCH_ID" />
@@ -33,8 +34,8 @@
                                     <input type="submit" value="Add Cash"  class="btn btn-success">
                                 </td>
                             </tr>
+                     
                         
-
                     </tbody>
                 </table>}
             </div>
