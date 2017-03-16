@@ -12,9 +12,7 @@
     HttpMethod = "POST",
     UpdateTargetId = "Updatediv",
     OnComplete = "ActiveprintBtn",
-    InsertionMode = InsertionMode.Replace,
-     LoadingElementId ="divloading",
-    LoadingElementDuration =2000
+    InsertionMode = InsertionMode.Replace
 }))
 {<div class="row">
         <div class="col-md-10 col-md-offset-1 well well-sm">
@@ -54,13 +52,6 @@
     </div>
 </div>
 <i id="PrintBtn" class="fa fa-print fa-5x" style=" display:none" onclick="printDiv('PrintableDiv')"></i>
-
-<div id="divloading" style=" display:none; margin:40px 450px 40px 450px">
-
-    <img src="~/Content/Images/loader.gif" width="100" height="70" title="Please Wait !!!" style="position:center" />
-</div>
-
-
 <script>
     function ActiveprintBtn() {
 
